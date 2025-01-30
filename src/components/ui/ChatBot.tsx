@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
 import { notifications } from '@/lib/notifications';
+import { ThinkingMessage } from './ThinkingMessage';
 
 interface Message {
   role: 'assistant' | 'user';
@@ -38,6 +39,7 @@ export function ChatBot() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isThinking, setIsThinking] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -106,6 +108,15 @@ export function ChatBot() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleSendMessage = () => {
+    setIsThinking(true);
+    // Your existing message handling logic
+    setTimeout(() => {
+      setIsThinking(false);
+      // Process message response
+    }, 3000);
   };
 
   return (
@@ -197,6 +208,13 @@ export function ChatBot() {
       >
         {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
       </motion.button>
+
+      {/* Only show thinking message when ChatBot is processing */}
+      {isThinking && (
+        <div className="absolute bottom-full right-0 mb-4">
+          <ThinkingMessage />
+        </div>
+      )}
     </div>
   );
 } 
