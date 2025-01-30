@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Focus Styles */
+*:focus {
+  outline: none;
+  @apply ring-2 ring-emerald-500 ring-opacity-50;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-emerald-500 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-emerald-600;
+}
+
+/* Form Styles */
+input[type="checkbox"] {
+  @apply w-4 h-4 text-emerald-500 border-gray-300 rounded focus:ring-emerald-500;
+}
+
+textarea {
+  @apply resize-none;
+}
+
+.form-section {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.form-section:hover {
+  @apply shadow-md;
+}
