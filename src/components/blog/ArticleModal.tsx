@@ -147,7 +147,8 @@ export function ArticleModal({ post, onClose, onShare }: ArticleModalProps) {
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="bg-white rounded-2xl shadow-xl overflow-hidden"
+            className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-hidden max-w-4xl w-full 
+                       mx-auto relative border border-gray-100 dark:border-gray-800"
           >
             {/* Hero Section */}
             <div className="relative h-[400px]">
@@ -156,7 +157,7 @@ export function ArticleModal({ post, onClose, onShare }: ArticleModalProps) {
                 alt={post.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               
               {/* Title Section */}
               <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
@@ -182,180 +183,186 @@ export function ArticleModal({ post, onClose, onShare }: ArticleModalProps) {
             </div>
 
             {/* Content Section */}
-            <div className="px-8 py-10">
-              {/* Reading Stats */}
-              <div className="flex items-center space-x-4 text-sm text-gray-500 mb-8">
-                <div className="flex items-center">
-                  <Eye className="w-4 h-4 mr-1" />
-                  <span>1.2k views</span>
-                </div>
-                <div className="flex items-center">
-                  <MessageCircle className="w-4 h-4 mr-1" />
-                  <span>8 comments</span>
-                </div>
-                <div className="flex items-center">
-                  <Clock className="w-4 h-4 mr-1" />
-                  <span>{post.readTime} min read</span>
-                </div>
-              </div>
-
-              {/* Table of Contents */}
-              <div className="bg-gray-50 rounded-xl p-6 mb-8">
-                <h3 className="text-lg font-semibold mb-4">Table of Contents</h3>
-                <nav className="space-y-2">
-                  {post.content.split('\n\n')
-                    .filter(p => p.startsWith('#'))
-                    .map((heading, index) => {
-                      const level = heading.match(/^#{1,3}/)[0].length;
-                      const text = heading.replace(/^#{1,3}\s/, '');
-                      return (
-                        <a
-                          key={index}
-                          href={`#${text.toLowerCase().replace(/\s+/g, '-')}`}
-                          className={`block text-gray-600 hover:text-emerald-600 transition-colors
-                                    ${level === 1 ? 'font-medium' : 'pl-4'}`}
-                        >
-                          {text}
-                        </a>
-                      );
-                    })}
-                </nav>
-              </div>
-
-              {/* Article Content */}
-              <article className="prose prose-lg prose-emerald max-w-none">
-                {/* Lead paragraph */}
-                <p className="text-xl text-gray-600 mb-8 leading-relaxed font-medium not-prose">
-                  {post.excerpt}
-                </p>
-
-                {/* Main content with enhanced typography */}
-                <div className="prose-headings:font-bold 
-                                prose-h1:text-3xl prose-h1:mb-8
-                                prose-h2:text-2xl prose-h2:mb-6
-                                prose-h3:text-xl prose-h3:mb-4
-                                prose-p:text-gray-600 prose-p:leading-relaxed
-                                prose-li:text-gray-600
-                                prose-code:text-emerald-600 prose-code:bg-emerald-50
-                                prose-pre:bg-gray-50 prose-pre:border prose-pre:border-gray-200
-                                prose-blockquote:border-l-emerald-500 prose-blockquote:bg-emerald-50
-                                prose-blockquote:py-2 prose-blockquote:px-4
-                                prose-img:rounded-xl prose-img:shadow-lg">
-                  {/* Your content rendering logic */}
-                  {post.content.split('\n\n').map((paragraph, index) => {
-                    // Clean up the content by removing markdown symbols
-                    const cleanParagraph = paragraph
-                      .replace(/^#{1,3}\s/, '') // Remove heading markers
-                      .replace(/`{3}[\s\S]*`{3}/g, '') // Remove code block markers
-                      .replace(/^-\s/, '') // Remove list markers
-                      .replace(/^\d+\.\s/, '') // Remove numbered list markers
-                      .trim();
-
-                    if (!cleanParagraph) return null;
-
-                    // Determine the type of content and style accordingly
-                    if (paragraph.startsWith('#')) {
-                      const level = paragraph.match(/^#{1,3}/)[0].length;
-                      const className = level === 1 
-                        ? "text-3xl font-bold text-gray-900 mt-12 mb-6"
-                        : level === 2
-                        ? "text-2xl font-bold text-gray-900 mt-10 mb-4"
-                        : "text-xl font-bold text-gray-800 mt-8 mb-4";
-                      
-                      return (
-                        <h2 key={index} className={className}>
-                          {cleanParagraph}
-                        </h2>
-                      );
-                    }
-
-                    if (paragraph.includes('```')) {
-                      const code = paragraph.match(/```[\s\S]*```/)[0]
-                        .replace(/```\w*\n?/g, '');
-                      return (
-                        <div key={index} className="bg-gray-50 rounded-xl p-6 font-mono text-sm overflow-x-auto">
-                          <pre>{code}</pre>
-                        </div>
-                      );
-                    }
-
-                    return (
-                      <p key={index} className="text-gray-700 leading-relaxed">
-                        {cleanParagraph}
-                      </p>
-                    );
-                  })}
-                </div>
-              </article>
-
-              {/* Author Bio */}
-              <div className="mt-12 border-t pt-8">
-                <div className="flex items-start space-x-4">
-                  <img
-                    src={post.author.avatar}
-                    alt={post.author.name}
-                    className="w-12 h-12 rounded-full"
-                  />
-                  <div>
-                    <h3 className="font-semibold text-gray-900">{post.author.name}</h3>
-                    <p className="text-gray-600 mt-1">
-                      Technical writer and software developer with a passion for creating 
-                      user-friendly content about complex technical topics.
-                    </p>
+            <div className="p-8">
+              <div className="prose prose-lg dark:prose-invert prose-emerald max-w-none">
+                <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                  {post.title}
+                </h1>
+                <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400 mb-8">
+                  <div className="flex items-center">
+                    <Eye className="w-4 h-4 mr-1" />
+                    <span>1.2k views</span>
+                  </div>
+                  <div className="flex items-center">
+                    <MessageCircle className="w-4 h-4 mr-1" />
+                    <span>8 comments</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Clock className="w-4 h-4 mr-1" />
+                    <span>{post.readTime} min read</span>
                   </div>
                 </div>
-              </div>
 
-              {/* Comments Section */}
-              <div className="mt-12 border-t pt-8">
-                <h3 className="text-xl font-bold mb-6 flex items-center justify-between">
-                  <span>Comments</span>
-                  <span className="text-sm font-normal text-gray-500">8 comments</span>
-                </h3>
-                <CommentSection
-                  comments={[
-                    {
-                      id: '1',
-                      author: {
-                        name: 'John Doe',
-                        avatar: 'https://ui-avatars.com/api/?name=John+Doe',
-                      },
-                      content: 'Great article! The insights about AI development are spot on.',
-                      likes: 5,
-                      timestamp: new Date('2024-03-15T10:00:00'),
-                      replies: [
-                        {
-                          id: '2',
-                          author: {
-                            name: 'Jane Smith',
-                            avatar: 'https://ui-avatars.com/api/?name=Jane+Smith',
-                          },
-                          content: 'Totally agree! Especially about the automated testing part.',
-                          likes: 2,
-                          timestamp: new Date('2024-03-15T11:30:00'),
-                        },
-                      ],
-                    },
-                    // Add more sample comments as needed
-                  ]}
-                />
-              </div>
-
-              {/* Related Articles */}
-              <div className="mt-12 border-t pt-8">
-                <h3 className="text-xl font-bold mb-6">Related Articles</h3>
-                <div className="grid grid-cols-2 gap-6">
-                  {/* Add related articles here */}
+                {/* Table of Contents */}
+                <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 mb-8">
+                  <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+                    Table of Contents
+                  </h3>
+                  <nav className="space-y-2">
+                    {post.content.split('\n\n')
+                      .filter(p => p.startsWith('#'))
+                      .map((heading, index) => {
+                        const level = heading.match(/^#{1,3}/)[0].length;
+                        const text = heading.replace(/^#{1,3}\s/, '');
+                        return (
+                          <a
+                            key={index}
+                            href={`#${text.toLowerCase().replace(/\s+/g, '-')}`}
+                            className={`block text-gray-600 hover:text-emerald-600 transition-colors
+                                      ${level === 1 ? 'font-medium' : 'pl-4'}`}
+                          >
+                            {text}
+                          </a>
+                        );
+                      })}
+                  </nav>
                 </div>
-              </div>
 
-              {/* Newsletter Section with enhanced styling */}
-              <div className="mt-16">
-                <div className="bg-gradient-to-br from-emerald-50 to-emerald-100/50 
-                              rounded-2xl p-8 shadow-inner relative overflow-hidden">
-                  <div className="absolute inset-0 bg-grid-pattern opacity-5" />
-                  <div className="relative">
-                    <NewsletterForm />
+                {/* Article Content */}
+                <article className="prose prose-lg prose-emerald dark:prose-invert max-w-none">
+                  {/* Lead paragraph */}
+                  <p className="text-xl text-gray-600 mb-8 leading-relaxed font-medium not-prose">
+                    {post.excerpt}
+                  </p>
+
+                  {/* Main content with enhanced typography */}
+                  <div className="prose-headings:font-bold 
+                                  prose-h1:text-3xl prose-h1:mb-8
+                                  prose-h2:text-2xl prose-h2:mb-6
+                                  prose-h3:text-xl prose-h3:mb-4
+                                  prose-p:text-gray-600 prose-p:leading-relaxed
+                                  prose-li:text-gray-600
+                                  prose-code:text-emerald-600 prose-code:bg-emerald-50
+                                  prose-pre:bg-gray-50 prose-pre:border prose-pre:border-gray-200
+                                  prose-blockquote:border-l-emerald-500 prose-blockquote:bg-emerald-50
+                                  prose-blockquote:py-2 prose-blockquote:px-4
+                                  prose-img:rounded-xl prose-img:shadow-lg">
+                    {/* Your content rendering logic */}
+                    {post.content.split('\n\n').map((paragraph, index) => {
+                      // Clean up the content by removing markdown symbols
+                      const cleanParagraph = paragraph
+                        .replace(/^#{1,3}\s/, '') // Remove heading markers
+                        .replace(/`{3}[\s\S]*`{3}/g, '') // Remove code block markers
+                        .replace(/^-\s/, '') // Remove list markers
+                        .replace(/^\d+\.\s/, '') // Remove numbered list markers
+                        .trim();
+
+                      if (!cleanParagraph) return null;
+
+                      // Determine the type of content and style accordingly
+                      if (paragraph.startsWith('#')) {
+                        const level = paragraph.match(/^#{1,3}/)[0].length;
+                        const className = level === 1 
+                          ? "text-3xl font-bold text-gray-900 mt-12 mb-6"
+                          : level === 2
+                          ? "text-2xl font-bold text-gray-900 mt-10 mb-4"
+                          : "text-xl font-bold text-gray-800 mt-8 mb-4";
+                        
+                        return (
+                          <h2 key={index} className={className}>
+                            {cleanParagraph}
+                          </h2>
+                        );
+                      }
+
+                      if (paragraph.includes('```')) {
+                        const code = paragraph.match(/```[\s\S]*```/)[0]
+                          .replace(/```\w*\n?/g, '');
+                        return (
+                          <div key={index} className="bg-gray-50 rounded-xl p-6 font-mono text-sm overflow-x-auto">
+                            <pre>{code}</pre>
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <p key={index} className="text-gray-700 leading-relaxed">
+                          {cleanParagraph}
+                        </p>
+                      );
+                    })}
+                  </div>
+                </article>
+
+                {/* Author Bio */}
+                <div className="mt-12 border-t pt-8">
+                  <div className="flex items-start space-x-4">
+                    <img
+                      src={post.author.avatar}
+                      alt={post.author.name}
+                      className="w-12 h-12 rounded-full"
+                    />
+                    <div>
+                      <h3 className="font-semibold text-gray-900">{post.author.name}</h3>
+                      <p className="text-gray-600 mt-1">
+                        Technical writer and software developer with a passion for creating 
+                        user-friendly content about complex technical topics.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Comments Section */}
+                <div className="mt-12 border-t pt-8">
+                  <h3 className="text-xl font-bold mb-6 flex items-center justify-between">
+                    <span>Comments</span>
+                    <span className="text-sm font-normal text-gray-500">8 comments</span>
+                  </h3>
+                  <CommentSection
+                    comments={[
+                      {
+                        id: '1',
+                        author: {
+                          name: 'John Doe',
+                          avatar: 'https://ui-avatars.com/api/?name=John+Doe',
+                        },
+                        content: 'Great article! The insights about AI development are spot on.',
+                        likes: 5,
+                        timestamp: new Date('2024-03-15T10:00:00'),
+                        replies: [
+                          {
+                            id: '2',
+                            author: {
+                              name: 'Jane Smith',
+                              avatar: 'https://ui-avatars.com/api/?name=Jane+Smith',
+                            },
+                            content: 'Totally agree! Especially about the automated testing part.',
+                            likes: 2,
+                            timestamp: new Date('2024-03-15T11:30:00'),
+                          },
+                        ],
+                      },
+                      // Add more sample comments as needed
+                    ]}
+                  />
+                </div>
+
+                {/* Related Articles */}
+                <div className="mt-12 border-t pt-8">
+                  <h3 className="text-xl font-bold mb-6">Related Articles</h3>
+                  <div className="grid grid-cols-2 gap-6">
+                    {/* Add related articles here */}
+                  </div>
+                </div>
+
+                {/* Newsletter Section with enhanced styling */}
+                <div className="mt-16">
+                  <div className="bg-gradient-to-br from-emerald-50 to-emerald-100/50 
+                                rounded-2xl p-8 shadow-inner relative overflow-hidden">
+                    <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+                    <div className="relative">
+                      <NewsletterForm />
+                    </div>
                   </div>
                 </div>
               </div>

@@ -278,7 +278,8 @@ export function Blog() {
   };
 
   return (
-    <section id="blog" className="py-20 bg-gray-50">
+    <section id="blog" className="py-24 bg-gradient-to-b from-white via-emerald-50/50 to-white 
+                                 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       {isMobile && (
         <>
           <SwipeIndicator 
@@ -294,8 +295,10 @@ export function Blog() {
 
       <div className="container mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 gradient-text">Trending in Tech</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">
+            Trending in Tech
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Stay updated with the latest trends and insights in app development, AI, and technology
           </p>
         </div>
@@ -333,14 +336,17 @@ export function Blog() {
                   exit={{ opacity: 0 }}
                   className="w-full flex-shrink-0 px-4"
                 >
-                  <div className="bg-white rounded-2xl shadow-depth overflow-hidden hover:shadow-xl transition-shadow relative">
+                  <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-depth overflow-hidden 
+                                 hover:shadow-xl transition-shadow relative border border-gray-100 
+                                 dark:border-gray-700">
                     <div className="relative">
                       <img
                         src={post.image}
                         alt={post.title}
                         className="w-full h-48 object-cover"
                       />
-                      <span className="absolute top-4 right-4 bg-emerald-500 text-white px-3 py-1 rounded-full text-sm">
+                      <span className="absolute top-4 right-4 bg-emerald-500 dark:bg-emerald-600 
+                                     text-white px-3 py-1 rounded-full text-sm">
                         {post.category}
                       </span>
                     </div>
@@ -353,17 +359,20 @@ export function Blog() {
                           className="w-8 h-8 rounded-full"
                         />
                         <div className="text-sm">
-                          <p className="font-medium">{post.author.name}</p>
-                          <p className="text-gray-500">
+                          <p className="font-medium text-gray-900 dark:text-white">
+                            {post.author.name}
+                          </p>
+                          <p className="text-gray-500 dark:text-gray-400">
                             {format(post.date, 'MMM d, yyyy')} • {post.readTime} min read
                           </p>
                         </div>
                       </div>
 
-                      <h2 className="text-xl font-bold mb-3 hover:text-emerald-600 transition-colors">
+                      <h2 className="text-xl font-bold mb-3 text-gray-900 dark:text-white 
+                                   hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">
                         {post.title}
                       </h2>
-                      <p className="text-gray-600 mb-6 line-clamp-2">
+                      <p className="text-gray-600 dark:text-gray-300 mb-6 line-clamp-2">
                         {post.excerpt}
                       </p>
 
@@ -372,39 +381,45 @@ export function Blog() {
                           {post.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-sm"
+                              className="bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 
+                                       dark:text-emerald-400 px-3 py-1 rounded-full text-sm"
                             >
                               #{tag}
                             </span>
                           ))}
                         </div>
 
-                        <div className="flex items-center justify-between pt-4 border-t relative">
+                        <div className="flex items-center justify-between pt-4 border-t 
+                                      border-gray-100 dark:border-gray-700 relative">
                           <div className="flex space-x-2">
                             <button
                               onClick={() => {
                                 setSelectedPost(post);
                                 setShowComments(true);
                               }}
-                              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 
+                                       rounded-full transition-colors"
                               aria-label="View comments"
                             >
-                              <MessageCircle className="w-5 h-5 text-gray-600" />
+                              <MessageCircle className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                             </button>
                             <button
                               onClick={() => handleBookmark(post)}
-                              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 
+                                       rounded-full transition-colors"
                               aria-label="Bookmark article"
                             >
-                              <BookmarkPlus className="w-5 h-5 text-gray-600" />
+                              <BookmarkPlus className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                             </button>
                           </div>
 
                           <button
                             onClick={() => handleReadMore(post)}
-                            className="bg-white text-emerald-600 px-8 py-3 rounded-full font-semibold 
-                                       hover:bg-emerald-50 transition duration-300 flex items-center 
-                                       shadow-depth hover-lift border border-emerald-100 group"
+                            className="bg-white dark:bg-gray-800 text-emerald-600 dark:text-emerald-400 
+                                     px-8 py-3 rounded-full font-semibold hover:bg-emerald-50 
+                                     dark:hover:bg-emerald-900/30 transition duration-300 
+                                     flex items-center shadow-depth hover-lift 
+                                     border border-emerald-100 dark:border-emerald-800 group"
                           >
                             <span>Read More</span>
                             <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -419,27 +434,29 @@ export function Blog() {
             </motion.div>
           </div>
 
-          {/* Show navigation buttons only on desktop */}
+          {/* Navigation buttons */}
           {!isMobile && (
             <>
               <button
                 onClick={prevSlide}
                 className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 
-                           bg-white p-3 rounded-full shadow-depth hover:scale-110 
-                           transition-transform z-10 hidden md:block"
+                         bg-white dark:bg-gray-800 p-3 rounded-full shadow-depth 
+                         hover:scale-110 transition-transform z-10 hidden md:block
+                         text-gray-600 dark:text-gray-300"
                 aria-label="Previous article"
               >
-                <ArrowLeft className="w-6 h-6 text-gray-600" />
+                <ArrowLeft className="w-6 h-6" />
               </button>
 
               <button
                 onClick={nextSlide}
                 className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 
-                           bg-white p-3 rounded-full shadow-depth hover:scale-110 
-                           transition-transform z-10 hidden md:block"
+                         bg-white dark:bg-gray-800 p-3 rounded-full shadow-depth 
+                         hover:scale-110 transition-transform z-10 hidden md:block
+                         text-gray-600 dark:text-gray-300"
                 aria-label="Next article"
               >
-                <ArrowRight className="w-6 h-6 text-gray-600" />
+                <ArrowRight className="w-6 h-6" />
               </button>
             </>
           )}
@@ -451,7 +468,9 @@ export function Blog() {
                 key={index}
                 onClick={() => setCurrentIndex(index)}
                 className={`w-3 h-3 rounded-full transition-colors ${
-                  index === currentIndex ? 'bg-emerald-500' : 'bg-gray-300'
+                  index === currentIndex 
+                    ? 'bg-emerald-500 dark:bg-emerald-400' 
+                    : 'bg-gray-300 dark:bg-gray-600'
                 }`}
                 aria-label={`Go to article ${index + 1}`}
               />

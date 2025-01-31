@@ -97,7 +97,7 @@ interface TooltipState {
 
 const queryClient = new QueryClient();
 
-function App() {
+export function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -296,292 +296,307 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Seo />
-      <CommandMenu />
-      <Header />
-      <ScrollProgress />
-      
-      <div className="min-h-screen bg-white dark-mode-transition">
+      <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+        <Seo />
+        <CommandMenu />
+        <Header />
+        <ScrollProgress />
+
         {/* Hero Section */}
-        <SectionTransition>
-          <div className="pt-20">
-            <div className="bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700 text-white relative overflow-hidden">
-              {/* Abstract Background Pattern */}
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute inset-0 bg-[url('data:image/svg+xml,...')] bg-repeat rotate-45"></div>
-              </div>
-              
-              <div className="container mx-auto px-6 py-24 text-center relative">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
+        <section className="pt-20 bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700 
+                           dark:from-emerald-900 dark:via-emerald-800 dark:to-teal-900 text-white">
+          <div className="container mx-auto px-6 py-24 text-center relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">
+                Transform Your Ideas into
+                <span className="block mt-2 text-emerald-200">Reality</span>
+              </h1>
+              <p className="text-xl md:text-2xl mb-8 text-emerald-100 max-w-2xl mx-auto">
+                An App in a Snap™ - Rapid Development Solutions for Modern Businesses
+              </p>
+              <div className="mt-8 flex items-center justify-center relative">
+                <button
+                  onClick={() => {
+                    setShowHearts(true);
+                    // Open PRD modal after a slight delay for hearts animation
+                    setTimeout(() => setIsPRDModalOpen(true), 300);
+                    // Reset hearts animation
+                    setTimeout(() => setShowHearts(false), 2000);
+                  }}
+                  className="bg-white text-emerald-600 px-8 py-3 rounded-full font-semibold 
+                             hover:bg-emerald-50 transition duration-300 flex items-center space-x-2
+                             shadow-depth hover-lift"
                 >
-                  <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">
-                    Transform Your Ideas into
-                    <span className="block mt-2 text-emerald-200">Reality</span>
-                  </h1>
-                  <p className="text-xl md:text-2xl mb-8 text-emerald-100 max-w-2xl mx-auto">
-                    An App in a Snap™ - Rapid Development Solutions for Modern Businesses
-                  </p>
-                  <div className="mt-8 flex items-center justify-center relative">
-                    <button
-                      onClick={() => {
-                        setShowHearts(true);
-                        // Open PRD modal after a slight delay for hearts animation
-                        setTimeout(() => setIsPRDModalOpen(true), 300);
-                        // Reset hearts animation
-                        setTimeout(() => setShowHearts(false), 2000);
-                      }}
-                      className="bg-white text-emerald-600 px-8 py-3 rounded-full font-semibold 
-                                 hover:bg-emerald-50 transition duration-300 flex items-center space-x-2
-                                 shadow-depth hover-lift"
-                    >
-                      <span>Get Started</span>
-                      <ArrowRight className="w-5 h-5" />
-                    </button>
-                    {showHearts && <HeartsAnimation />}
-                  </div>
-                </motion.div>
+                  <span>Get Started</span>
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+                {showHearts && <HeartsAnimation />}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* About Section */}
+        <section id="about" className="py-20 bg-gradient-to-b from-white via-emerald-50 to-white 
+                           dark:from-gray-900 dark:via-emerald-900/10 dark:to-gray-900">
+          <div className="container mx-auto px-6">
+            <h2 className="text-4xl font-bold text-center mb-16 text-gray-900 dark:text-white">
+              Accelerating Digital Innovation
+            </h2>
+            <div className="grid md:grid-cols-3 gap-12">
+              <div className="text-center transform hover:scale-105 transition duration-300">
+                <Clock className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold mb-2">Lightning Fast Delivery</h3>
+                <p className="text-gray-600 dark:text-gray-300">From concept to deployment in record time</p>
+              </div>
+              <div className="text-center transform hover:scale-105 transition duration-300">
+                <Code className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold mb-2">Cutting-Edge Tech</h3>
+                <p className="text-gray-600 dark:text-gray-300">Built with the latest technologies</p>
+              </div>
+              <div className="text-center transform hover:scale-105 transition duration-300">
+                <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold mb-2">Quality Assured</h3>
+                <p className="text-gray-600 dark:text-gray-300">Rigorous testing and optimization</p>
               </div>
             </div>
           </div>
-        </SectionTransition>
-
-        {/* About Section */}
-        <SectionTransition>
-          <section id="about" className="py-20 bg-gray-50">
-            <div className="container mx-auto px-6">
-              <h2 className="text-4xl font-bold text-center mb-16 text-gray-800">
-                Accelerating Digital Innovation
-              </h2>
-              <div className="grid md:grid-cols-3 gap-12">
-                <div className="text-center transform hover:scale-105 transition duration-300">
-                  <Clock className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">Lightning Fast Delivery</h3>
-                  <p className="text-gray-600">From concept to deployment in record time</p>
-                </div>
-                <div className="text-center transform hover:scale-105 transition duration-300">
-                  <Code className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">Cutting-Edge Tech</h3>
-                  <p className="text-gray-600">Built with the latest technologies</p>
-                </div>
-                <div className="text-center transform hover:scale-105 transition duration-300">
-                  <CheckCircle className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold mb-2">Quality Assured</h3>
-                  <p className="text-gray-600">Rigorous testing and optimization</p>
-                </div>
-              </div>
-            </div>
-          </section>
-        </SectionTransition>
+        </section>
 
         {/* Packages Section */}
-        <SectionTransition>
-          <section id="packages" className="py-20">
-            <div className="container mx-auto px-6">
-              <h2 className="text-4xl font-bold text-center mb-16 text-gray-800">
-                Development Packages
-              </h2>
-              <div className="grid md:grid-cols-3 gap-8">
-                {/* Starter Package */}
-                <div className="border rounded-lg p-8 hover:shadow-xl transition duration-300 
-                            transform hover:-translate-y-2 bg-white shadow-depth hover-lift
-                            relative overflow-hidden">
-                  {/* Add a subtle gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 to-transparent opacity-50"></div>
-                  
-                  {/* Package content with enhanced styling */}
-                  <div className="relative z-10">
-                    <Package className="w-12 h-12 text-emerald-500 mb-4" />
-                    <h3 className="text-2xl font-bold mb-4 gradient-text">Rapid MVP</h3>
-                    <p className="text-gray-600 mb-6">Perfect for validating your app idea quickly</p>
-                    <ul className="space-y-3 mb-8">
-                      <li className="flex items-center">
-                        <CheckCircle className="w-5 h-5 text-emerald-500 mr-2" />
-                        Core feature development
-                      </li>
-                      <li className="flex items-center">
-                        <CheckCircle className="w-5 h-5 text-emerald-500 mr-2" />
-                        Basic UI/UX design
-                      </li>
-                      <li className="flex items-center">
-                        <CheckCircle className="w-5 h-5 text-emerald-500 mr-2" />
-                        2-week delivery
-                      </li>
-                    </ul>
-                    <button className="w-full bg-emerald-500 text-white py-2 rounded-full hover:bg-emerald-600 transition">
-                      Learn More
-                    </button>
-                  </div>
+        <section id="packages" className="py-24 bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-50 
+                           dark:from-emerald-900/40 dark:via-emerald-800/20 dark:to-gray-900">
+          <div className="container mx-auto px-6">
+            <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+              Our Packages
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {/* Starter Package */}
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-xl p-6 
+                                 shadow-lg hover:shadow-xl transition duration-300 
+                                 border border-emerald-100 dark:border-emerald-800">
+                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+                  Rapid MVP
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                  Perfect for validating your app idea quickly and efficiently
+                </p>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <span className="text-gray-600 dark:text-gray-300">Core feature development</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <span className="text-gray-600 dark:text-gray-300">Basic user authentication</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <span className="text-gray-600 dark:text-gray-300">Essential UI/UX design</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <span className="text-gray-600 dark:text-gray-300">2-week delivery timeline</span>
+                  </li>
+                </ul>
+                <div className="mt-6">
+                  <span className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
+                    $10,000
+                  </span>
+                  <span className="text-gray-500 dark:text-gray-400 ml-2">/ project</span>
                 </div>
+              </div>
 
-                {/* Pro Package */}
-                <div className="border rounded-lg p-8 hover:shadow-xl transition duration-300 transform hover:-translate-y-2 bg-emerald-50 relative">
-                  <div className="absolute top-0 right-0 bg-emerald-500 text-white px-4 py-1 rounded-bl-lg rounded-tr-lg">
-                    Popular
-                  </div>
-                  <Rocket className="w-12 h-12 text-emerald-500 mb-4" />
-                  <h3 className="text-2xl font-bold mb-4">Professional Launch</h3>
-                  <p className="text-gray-600 mb-6">Complete solution for serious businesses</p>
-                  <ul className="space-y-3 mb-8">
-                    <li className="flex items-center">
-                      <CheckCircle className="w-5 h-5 text-emerald-500 mr-2" />
-                      Full feature set
-                    </li>
-                    <li className="flex items-center">
-                      <CheckCircle className="w-5 h-5 text-emerald-500 mr-2" />
-                      Advanced UI/UX design
-                    </li>
-                    <li className="flex items-center">
-                      <CheckCircle className="w-5 h-5 text-emerald-500 mr-2" />
-                      4-week delivery
-                    </li>
-                  </ul>
-                  <button className="w-full bg-emerald-500 text-white py-2 rounded-full hover:bg-emerald-600 transition">
-                    Learn More
-                  </button>
+              {/* Pro Package */}
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-xl p-6 
+                                 shadow-lg hover:shadow-xl transition duration-300 
+                                 border border-emerald-100 dark:border-emerald-800 relative">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-emerald-500 text-white px-4 py-1 rounded-full text-sm">
+                  Most Popular
                 </div>
+                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+                  Professional Launch
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                  Complete solution for serious businesses ready to scale
+                </p>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <span className="text-gray-600 dark:text-gray-300">Full feature development</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <span className="text-gray-600 dark:text-gray-300">Advanced authentication & security</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <span className="text-gray-600 dark:text-gray-300">Premium UI/UX with animations</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <span className="text-gray-600 dark:text-gray-300">API integration & documentation</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <span className="text-gray-600 dark:text-gray-300">4-6 week delivery timeline</span>
+                  </li>
+                </ul>
+                <div className="mt-6">
+                  <span className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
+                    $20,000
+                  </span>
+                  <span className="text-gray-500 dark:text-gray-400 ml-2">/ project</span>
+                </div>
+              </div>
 
-                {/* Enterprise Package */}
-                <div className="border rounded-lg p-8 hover:shadow-xl transition duration-300 transform hover:-translate-y-2">
-                  <Users className="w-12 h-12 text-emerald-500 mb-4" />
-                  <h3 className="text-2xl font-bold mb-4">Enterprise Scale</h3>
-                  <p className="text-gray-600 mb-6">Custom solutions for large organizations</p>
-                  <ul className="space-y-3 mb-8">
-                    <li className="flex items-center">
-                      <CheckCircle className="w-5 h-5 text-emerald-500 mr-2" />
-                      Custom architecture
-                    </li>
-                    <li className="flex items-center">
-                      <CheckCircle className="w-5 h-5 text-emerald-500 mr-2" />
-                      Premium support
-                    </li>
-                    <li className="flex items-center">
-                      <CheckCircle className="w-5 h-5 text-emerald-500 mr-2" />
-                      Flexible timeline
-                    </li>
-                  </ul>
-                  <button className="w-full bg-emerald-500 text-white py-2 rounded-full hover:bg-emerald-600 transition">
+              {/* Enterprise Package */}
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-xl p-6 
+                                 shadow-lg hover:shadow-xl transition duration-300 
+                                 border border-emerald-100 dark:border-emerald-800">
+                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+                  Enterprise Scale
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                  Custom solutions for large organizations with complex needs
+                </p>
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <span className="text-gray-600 dark:text-gray-300">Custom architecture & scaling</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <span className="text-gray-600 dark:text-gray-300">Enterprise-grade security</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <span className="text-gray-600 dark:text-gray-300">Dedicated project manager</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <span className="text-gray-600 dark:text-gray-300">24/7 priority support</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                    <span className="text-gray-600 dark:text-gray-300">Custom timeline & roadmap</span>
+                  </li>
+                </ul>
+                <div className="mt-6">
+                  <span className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
                     Contact Us
-                  </button>
+                  </span>
+                  <span className="text-gray-500 dark:text-gray-400 block mt-1 text-sm">
+                    For custom enterprise pricing
+                  </span>
                 </div>
               </div>
             </div>
-          </section>
-        </SectionTransition>
+          </div>
+        </section>
 
         {/* Testimonials Section */}
-        <SectionTransition>
-          <section id="testimonials" className="py-20 bg-gray-50">
-            <div className="container mx-auto px-6">
-              <h2 className="text-4xl font-bold text-center mb-16 text-gray-800">
-                Client Success Stories
-              </h2>
-              <div className="grid md:grid-cols-3 gap-8">
-                {testimonials.map((testimonial, index) => (
-                  <div key={index} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300">
-                    <div className="flex items-center mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                      ))}
-                    </div>
-                    <p className="text-gray-600 mb-4 italic">"{testimonial.content}"</p>
-                    <div className="border-t pt-4">
-                      <p className="font-semibold">{testimonial.name}</p>
-                      <p className="text-emerald-600">{testimonial.role}</p>
-                    </div>
+        <section id="testimonials" className="py-24 bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-50 
+                           dark:from-emerald-900/40 dark:via-emerald-800/20 dark:to-gray-900">
+          <div className="container mx-auto px-6">
+            <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+              What Our Clients Say
+            </h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {testimonials.map((testimonial, index) => (
+                <div 
+                  key={index} 
+                  className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-xl p-6 
+                             shadow-lg hover:shadow-xl transition duration-300 
+                             border border-emerald-100 dark:border-emerald-800"
+                >
+                  <div className="flex items-center mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star 
+                        key={i} 
+                        className="w-5 h-5 text-emerald-500 dark:text-emerald-400 fill-current" 
+                      />
+                    ))}
                   </div>
-                ))}
-              </div>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 italic">
+                    "{testimonial.content}"
+                  </p>
+                  <div className="border-t border-emerald-100 dark:border-emerald-800/50 pt-4">
+                    <p className="font-semibold text-gray-900 dark:text-white">
+                      {testimonial.name}
+                    </p>
+                    <p className="text-emerald-600 dark:text-emerald-400">
+                      {testimonial.role}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
-          </section>
-        </SectionTransition>
+          </div>
+        </section>
 
         {/* Blog Section */}
-        <SectionTransition>
+        <section className="py-24 bg-gradient-to-b from-emerald-50 via-white to-emerald-50 
+                           dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
           <Blog />
-        </SectionTransition>
+        </section>
 
         {/* Contact Section */}
-        <SectionTransition>
-          <section id="contact" className="py-20">
-            <div className="container mx-auto px-6">
-              <h2 className="text-4xl font-bold text-center mb-16 text-gray-800">
-                Get In Touch
-              </h2>
-              <div className="grid md:grid-cols-2 gap-12">
+        <section id="contact" className="py-24 bg-gradient-to-br from-white to-emerald-50 
+                           dark:from-gray-900 dark:to-gray-800">
+          <div className="container mx-auto px-6">
+            <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+              Get In Touch
+            </h2>
+            <div className="max-w-2xl mx-auto">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <h3 className="text-2xl font-semibold mb-6">Contact Information</h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center">
-                      <Mail className="w-6 h-6 text-emerald-500 mr-4" />
-                      <span>contact@appsnap.dev</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Phone className="w-6 h-6 text-emerald-500 mr-4" />
-                      <span>+1 (555) 123-4567</span>
-                    </div>
-                    <div className="flex items-center">
-                      <MapPin className="w-6 h-6 text-emerald-500 mr-4" />
-                      <span>123 Innovation Street, Tech City</span>
-                    </div>
-                  </div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
+                             bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                             focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400"
+                  />
                 </div>
                 <div>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                        Name
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        value={formData.name}
-                        onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                        Message
-                      </label>
-                      <textarea
-                        id="message"
-                        value={formData.message}
-                        onChange={(e) => setFormData({...formData, message: e.target.value})}
-                        rows={4}
-                        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                        required
-                      ></textarea>
-                    </div>
-                    <button
-                      type="submit"
-                      className="w-full bg-emerald-500 text-white py-2 px-6 rounded-full hover:bg-emerald-600 transition duration-300 flex items-center justify-center"
-                    >
-                      Send Message
-                      <Send className="w-5 h-5 ml-2" />
-                    </button>
-                  </form>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
+                             bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                             focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400"
+                  />
                 </div>
-              </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Message
+                  </label>
+                  <textarea
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
+                             bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                             focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400"
+                    rows={4}
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-emerald-500 text-white py-2 px-6 rounded-full hover:bg-emerald-600 transition duration-300 flex items-center justify-center"
+                >
+                  Send Message
+                </button>
+              </form>
             </div>
-          </section>
-        </SectionTransition>
+          </div>
+        </section>
 
         {/* PRD Modal */}
         {isPRDModalOpen && (
@@ -594,18 +609,19 @@ function App() {
             <motion.div 
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="bg-white w-full h-full sm:h-auto sm:rounded-2xl sm:max-w-4xl sm:w-full 
+              className="bg-white dark:bg-gray-900 w-full h-full sm:h-auto sm:rounded-2xl sm:max-w-4xl sm:w-full 
                          sm:max-h-[90vh] overflow-y-auto shadow-depth modal-mobile sm:modal-desktop"
             >
-              <div className="sticky top-0 bg-white z-10 border-b border-gray-100 rounded-t-2xl shadow-sm">
+              <div className="sticky top-0 bg-white dark:bg-gray-900 z-10 border-b border-gray-100 dark:border-gray-800 rounded-t-2xl shadow-sm">
                 <div className="p-6 flex justify-between items-center">
                   <div>
-                    <h2 className="text-2xl font-bold gradient-text">Project Requirements Document</h2>
-                    <p className="text-gray-600 text-sm mt-1">Tell us about your dream project</p>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Project Requirements Document</h2>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">Tell us about your dream project</p>
                   </div>
                   <button 
                     onClick={() => setIsPRDModalOpen(false)}
-                    className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 p-2 rounded-full transition-colors"
+                    className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 
+                             hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded-full transition-colors"
                   >
                     <X className="w-6 h-6" />
                   </button>
@@ -618,13 +634,13 @@ function App() {
                   <div className="space-y-6">
                     <div className="flex items-center space-x-2 mb-4">
                       <FileText className="w-5 h-5 text-emerald-500" />
-                      <h3 className="text-lg font-semibold">Project Overview</h3>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Project Overview</h3>
                     </div>
                     
                     <div className="grid grid-cols-1 gap-6">
-                      <div className="form-section hover:shadow-md p-4 rounded-lg relative">
+                      <div className="form-section hover:shadow-md p-4 rounded-lg relative dark:bg-gray-800/50">
                         <div className="flex items-center justify-between mb-1">
-                          <label className="block text-sm font-medium text-gray-700">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                             Project Goals
                           </label>
                           <button
@@ -649,14 +665,16 @@ function App() {
                           value={prdFormData.projectGoals}
                           onChange={(e) => setPRDFormData({...prdFormData, projectGoals: e.target.value})}
                           placeholder="What are the main objectives of your project?"
-                          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                   dark:text-gray-100 dark:placeholder-gray-500
+                                   focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                           rows={3}
                           required
                         />
                       </div>
 
-                      <div className="form-section hover:shadow-md p-4 rounded-lg">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <div className="form-section hover:shadow-md p-4 rounded-lg dark:bg-gray-800/50">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                           Key Milestones
                         </label>
                         <div className="space-y-2">
@@ -671,9 +689,10 @@ function App() {
                                     : prdFormData.keyMilestones.filter(m => m !== milestone);
                                   setPRDFormData({...prdFormData, keyMilestones: updatedMilestones});
                                 }}
-                                className="rounded border-gray-300 text-emerald-500 focus:ring-emerald-500"
+                                className="rounded border-gray-300 dark:border-gray-600 text-emerald-500 
+                                         focus:ring-emerald-500 dark:bg-gray-700"
                               />
-                              <span>{milestone}</span>
+                              <span className="text-gray-700 dark:text-gray-300">{milestone}</span>
                             </label>
                           ))}
                         </div>
@@ -685,31 +704,32 @@ function App() {
                   <div className="space-y-6">
                     <div className="flex items-center space-x-2 mb-4">
                       <BarChart className="w-5 h-5 text-emerald-500" />
-                      <h3 className="text-lg font-semibold">Business Requirements</h3>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Business Requirements</h3>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="form-section hover:shadow-md p-4 rounded-lg">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                           Business Model
                         </label>
                         <select
                           value={prdFormData.businessModel}
                           onChange={(e) => setPRDFormData({...prdFormData, businessModel: e.target.value})}
-                          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                   dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                           required
                         >
-                          <option value="">Select Business Model</option>
-                          <option value="b2c">B2C</option>
-                          <option value="b2b">B2B</option>
-                          <option value="b2b2c">B2B2C</option>
-                          <option value="c2c">C2C</option>
-                          <option value="marketplace">Marketplace</option>
+                          <option value="" className="dark:text-gray-900">Select Business Model</option>
+                          <option value="b2c" className="dark:text-gray-900">B2C</option>
+                          <option value="b2b" className="dark:text-gray-900">B2B</option>
+                          <option value="b2b2c" className="dark:text-gray-900">B2B2C</option>
+                          <option value="c2c" className="dark:text-gray-900">C2C</option>
+                          <option value="marketplace" className="dark:text-gray-900">Marketplace</option>
                         </select>
                       </div>
 
                       <div className="form-section hover:shadow-md p-4 rounded-lg">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                           Revenue Streams
                         </label>
                         <div className="space-y-2">
@@ -731,9 +751,10 @@ function App() {
                                     : prdFormData.revenueStreams.filter(s => s !== stream);
                                   setPRDFormData({...prdFormData, revenueStreams: updatedStreams});
                                 }}
-                                className="rounded border-gray-300 text-emerald-500 focus:ring-emerald-500"
+                                className="rounded border-gray-300 dark:border-gray-600 text-emerald-500 
+                                         focus:ring-emerald-500 dark:bg-gray-700"
                               />
-                              <span>{stream}</span>
+                              <span className="text-gray-700 dark:text-gray-300">{stream}</span>
                             </label>
                           ))}
                         </div>
@@ -745,13 +766,13 @@ function App() {
                   <div className="space-y-6">
                     <div className="flex items-center space-x-2 mb-4">
                       <Users className="w-5 h-5 text-emerald-500" />
-                      <h3 className="text-lg font-semibold">User Requirements</h3>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">User Requirements</h3>
                     </div>
                     
                     <div className="grid grid-cols-1 gap-6">
-                      <div className="form-section hover:shadow-md p-4 rounded-lg relative">
+                      <div className="form-section hover:shadow-md p-4 rounded-lg relative dark:bg-gray-800/50">
                         <div className="flex items-center justify-between mb-1">
-                          <label className="block text-sm font-medium text-gray-700">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                             User Personas
                           </label>
                           <button
@@ -776,15 +797,17 @@ function App() {
                           value={prdFormData.userPersonas}
                           onChange={(e) => setPRDFormData({...prdFormData, userPersonas: e.target.value})}
                           placeholder="Describe your target users (age, occupation, tech-savviness, etc.)"
-                          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                   dark:text-gray-100 dark:placeholder-gray-500
+                                   focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                           rows={3}
                           required
                         />
                       </div>
 
-                      <div className="form-section hover:shadow-md p-4 rounded-lg relative">
+                      <div className="form-section hover:shadow-md p-4 rounded-lg dark:bg-gray-800/50">
                         <div className="flex items-center justify-between mb-1">
-                          <label className="block text-sm font-medium text-gray-700">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                             User Pain Points
                           </label>
                           <button
@@ -814,7 +837,9 @@ function App() {
                           value={prdFormData.userPainPoints}
                           onChange={(e) => setPRDFormData({...prdFormData, userPainPoints: e.target.value})}
                           placeholder="What problems are your users facing that your app will solve?"
-                          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                   dark:text-gray-100 dark:placeholder-gray-500
+                                   focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                           rows={3}
                           required
                         />
@@ -826,13 +851,13 @@ function App() {
                   <div className="space-y-6">
                     <div className="flex items-center space-x-2 mb-4">
                       <Code className="w-5 h-5 text-emerald-500" />
-                      <h3 className="text-lg font-semibold">Technical Requirements</h3>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Technical Requirements</h3>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="form-section hover:shadow-md p-4 rounded-lg relative">
+                      <div className="form-section hover:shadow-md p-4 rounded-lg relative dark:bg-gray-800/50">
                         <div className="flex items-center justify-between mb-1">
-                          <label className="block text-sm font-medium text-gray-700">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                             Performance Requirements
                           </label>
                           <button
@@ -848,7 +873,7 @@ function App() {
                           isOpen={tooltips.performance}
                           onClose={() => toggleTooltip('performance')}
                         >
-                          <ul className="text-sm text-gray-600 space-y-2">
+                          <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-2">
                             <li>• Under 1s: Best for consumer apps with frequent use</li>
                             <li>• Under 2s: Standard for most business applications</li>
                             <li>• Under 3s: Acceptable for data-heavy operations</li>
@@ -867,12 +892,13 @@ function App() {
                                   loadTime: e.target.value
                                 }
                               })}
-                              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                              className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                       dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                             >
-                              <option value="">Select Target Load Time</option>
-                              <option value="1s">Under 1 second</option>
-                              <option value="2s">Under 2 seconds</option>
-                              <option value="3s">Under 3 seconds</option>
+                              <option value="" className="dark:text-gray-900">Select Target Load Time</option>
+                              <option value="1s" className="dark:text-gray-900">Under 1 second</option>
+                              <option value="2s" className="dark:text-gray-900">Under 2 seconds</option>
+                              <option value="3s" className="dark:text-gray-900">Under 3 seconds</option>
                             </select>
                           </div>
                           
@@ -887,20 +913,21 @@ function App() {
                                   concurrent: e.target.value
                                 }
                               })}
-                              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                              className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                       dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                             >
-                              <option value="">Select Concurrent Users</option>
-                              <option value="100">Up to 100</option>
-                              <option value="1000">Up to 1,000</option>
-                              <option value="10000">Up to 10,000</option>
-                              <option value="100000">Up to 100,000+</option>
+                              <option value="" className="dark:text-gray-900">Select Concurrent Users</option>
+                              <option value="100" className="dark:text-gray-900">Up to 100</option>
+                              <option value="1000" className="dark:text-gray-900">Up to 1,000</option>
+                              <option value="10000" className="dark:text-gray-900">Up to 10,000</option>
+                              <option value="100000" className="dark:text-gray-900">Up to 100,000+</option>
                             </select>
                           </div>
                         </div>
                       </div>
 
                       <div className="form-section hover:shadow-md p-4 rounded-lg">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                           Device & Browser Support
                         </label>
                         <div className="space-y-2">
@@ -915,9 +942,10 @@ function App() {
                                     : prdFormData.deviceSupport.filter(d => d !== device);
                                   setPRDFormData({...prdFormData, deviceSupport: updatedDevices});
                                 }}
-                                className="rounded border-gray-300 text-emerald-500 focus:ring-emerald-500"
+                                className="rounded border-gray-300 dark:border-gray-600 text-emerald-500 
+                                         focus:ring-emerald-500 dark:bg-gray-700"
                               />
-                              <span>{device}</span>
+                              <span className="text-gray-700 dark:text-gray-300">{device}</span>
                             </label>
                           ))}
                         </div>
@@ -929,12 +957,12 @@ function App() {
                   <div className="space-y-6">
                     <div className="flex items-center space-x-2 mb-4">
                       <Palette className="w-5 h-5 text-emerald-500" />
-                      <h3 className="text-lg font-semibold">Design Requirements</h3>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Design Requirements</h3>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="form-section hover:shadow-md p-4 rounded-lg">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                           Brand Guidelines
                         </label>
                         <div className="space-y-2">
@@ -958,7 +986,7 @@ function App() {
                       </div>
 
                       <div className="form-section hover:shadow-md p-4 rounded-lg">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                           Special Requirements
                         </label>
                         <div className="space-y-2">
@@ -987,54 +1015,59 @@ function App() {
                   <div className="space-y-6">
                     <div className="flex items-center space-x-2 mb-4">
                       <Cloud className="w-5 h-5 text-emerald-500" />
-                      <h3 className="text-lg font-semibold">Deployment & Maintenance</h3>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Deployment & Maintenance</h3>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="form-section hover:shadow-md p-4 rounded-lg">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                           Hosting Preference
                         </label>
                         <select
                           value={prdFormData.hostingPreference}
                           onChange={(e) => setPRDFormData({...prdFormData, hostingPreference: e.target.value})}
-                          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                   dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                         >
-                          <option value="">Select Hosting Preference</option>
-                          <option value="aws">AWS</option>
-                          <option value="gcp">Google Cloud</option>
-                          <option value="azure">Microsoft Azure</option>
-                          <option value="custom">Custom Solution</option>
+                          <option value="" className="dark:text-gray-900">Select Hosting Preference</option>
+                          <option value="aws" className="dark:text-gray-900">AWS</option>
+                          <option value="gcp" className="dark:text-gray-900">Google Cloud</option>
+                          <option value="azure" className="dark:text-gray-900">Microsoft Azure</option>
+                          <option value="custom" className="dark:text-gray-900">Custom Solution</option>
                         </select>
                       </div>
 
                       <div className="form-section hover:shadow-md p-4 rounded-lg">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                           Update Frequency
                         </label>
                         <select
                           value={prdFormData.updateFrequency}
                           onChange={(e) => setPRDFormData({...prdFormData, updateFrequency: e.target.value})}
-                          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                   dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                         >
-                          <option value="">Select Update Frequency</option>
-                          <option value="weekly">Weekly</option>
-                          <option value="biweekly">Bi-weekly</option>
-                          <option value="monthly">Monthly</option>
-                          <option value="quarterly">Quarterly</option>
+                          <option value="" className="dark:text-gray-900">Select Update Frequency</option>
+                          <option value="weekly" className="dark:text-gray-900">Weekly</option>
+                          <option value="biweekly" className="dark:text-gray-900">Bi-weekly</option>
+                          <option value="monthly" className="dark:text-gray-900">Monthly</option>
+                          <option value="quarterly" className="dark:text-gray-900">Quarterly</option>
                         </select>
                       </div>
                     </div>
                   </div>
 
                   {/* Submit Section */}
-                  <div className="sticky bottom-0 bg-white border-t border-gray-100 p-4 rounded-b-2xl shadow-depth">
+                  <div className="sticky bottom-0 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 
+                                 p-4 rounded-b-2xl shadow-depth">
                     <div className="flex justify-between items-center">
                       <button
                         type="button"
                         onClick={() => setIsPRDModalOpen(false)}
-                        className="px-6 py-2 border border-gray-300 rounded-full hover:bg-gray-50 
-                                 transition duration-300 flex items-center space-x-2"
+                        className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-full 
+                                 hover:bg-gray-50 dark:hover:bg-gray-800 
+                                 transition duration-300 flex items-center space-x-2
+                                 text-gray-700 dark:text-gray-300"
                       >
                         <X className="w-4 h-4" />
                         <span>Cancel</span>
@@ -1054,10 +1087,10 @@ function App() {
             </motion.div>
           </motion.div>
         )}
-      </div>
 
-      <ChatBot />
-      <Analytics />
+        <ChatBot />
+        <Analytics />
+      </div>
     </QueryClientProvider>
   );
 }

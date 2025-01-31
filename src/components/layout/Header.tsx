@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Zap } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { DarkModeToggle } from '@/components/ui/DarkModeToggle';
+import { DarkModeToggle } from '../ui/DarkModeToggle';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,7 +11,7 @@ export function Header() {
     <motion.header 
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed w-full z-50 glass-effect border-b border-emerald-100/20"
+      className="fixed w-full z-50 bg-white/80 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-100 dark:border-gray-800"
     >
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
@@ -20,28 +20,24 @@ export function Header() {
               whileHover={{ rotate: 180 }}
               transition={{ duration: 0.3 }}
             >
-              <Zap className="w-8 h-8 text-emerald-500" />
+              <Zap className="w-8 h-8 text-emerald-500 dark:text-emerald-400" />
             </motion.div>
-            <span className="text-2xl font-bold gradient-text">AppSnap</span>
+            <span className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 
+                           dark:from-emerald-400 dark:to-teal-400 bg-clip-text text-transparent">
+              AppSnap
+            </span>
           </div>
-          
-          {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X /> : <Menu />}
-          </button>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-8">
-            {['About', 'Services', 'Packages', 'Testimonials', 'Contact'].map((item) => (
+            {['About', 'Packages', 'Testimonials', 'Contact'].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="relative text-gray-700 hover:text-emerald-500 transition-colors
-                         after:content-[''] after:absolute after:left-0 after:bottom-0
-                         after:h-0.5 after:w-0 after:bg-emerald-500
+                className="text-gray-700 dark:text-gray-200 hover:text-emerald-500 
+                         dark:hover:text-emerald-400 transition-colors relative
+                         after:absolute after:left-0 after:bottom-0 after:h-0.5 
+                         after:w-0 after:bg-emerald-500 dark:after:bg-emerald-400
                          after:transition-all hover:after:w-full"
               >
                 {item}
@@ -49,30 +45,50 @@ export function Header() {
             ))}
           </div>
 
-          {/* Actions section */}
+          {/* Actions section with Mobile Menu Button */}
           <div className="flex items-center space-x-4">
             <DarkModeToggle />
-            <button
-              onClick={() => setIsMenuOpen(true)}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
-              aria-label="Open menu"
+            {/* Mobile Menu Button */}
+            <button 
+              className="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              <Menu className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+              {isMenuOpen ? 
+                <X className="w-6 h-6 text-gray-600 dark:text-gray-300" /> : 
+                <Menu className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+              }
             </button>
           </div>
         </div>
       </nav>
 
       {/* Mobile Menu */}
-      <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'} bg-emerald-600 px-6 py-4`}>
-        <div className="flex flex-col space-y-4">
-          <a href="#about" className="hover:text-emerald-200 transition" onClick={() => setIsMenuOpen(false)}>About</a>
-          <a href="#services" className="hover:text-emerald-200 transition" onClick={() => setIsMenuOpen(false)}>Services</a>
-          <a href="#packages" className="hover:text-emerald-200 transition" onClick={() => setIsMenuOpen(false)}>Packages</a>
-          <a href="#testimonials" className="hover:text-emerald-200 transition" onClick={() => setIsMenuOpen(false)}>Testimonials</a>
-          <a href="#contact" className="hover:text-emerald-200 transition" onClick={() => setIsMenuOpen(false)}>Contact</a>
-        </div>
-      </div>
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800"
+          >
+            <div className="container mx-auto px-6 py-4">
+              <div className="flex flex-col space-y-4">
+                {['About', 'Packages', 'Testimonials', 'Contact'].map((item) => (
+                  <a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    className="text-gray-700 dark:text-gray-200 hover:text-emerald-500 
+                             dark:hover:text-emerald-400 transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 } 

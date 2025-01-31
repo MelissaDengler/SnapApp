@@ -2,6 +2,125 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --background: 255 255 255;
+    --foreground: 15 23 42;
+    --card: 255 255 255;
+    --card-foreground: 15 23 42;
+    --popover: 255 255 255;
+    --popover-foreground: 15 23 42;
+    --primary: 34 197 94;
+    --primary-foreground: 255 255 255;
+    --secondary: 241 245 249;
+    --secondary-foreground: 15 23 42;
+    --muted: 241 245 249;
+    --muted-foreground: 100 116 139;
+    --accent: 241 245 249;
+    --accent-foreground: 15 23 42;
+    --destructive: 239 68 68;
+    --destructive-foreground: 255 255 255;
+    --border: 226 232 240;
+    --input: 226 232 240;
+    --ring: 34 197 94;
+  }
+
+  .dark {
+    --background: 15 23 42;
+    --foreground: 226 232 240;
+    --card: 30 41 59;
+    --card-foreground: 226 232 240;
+    --popover: 30 41 59;
+    --popover-foreground: 226 232 240;
+    --primary: 34 197 94;
+    --primary-foreground: 255 255 255;
+    --secondary: 30 41 59;
+    --secondary-foreground: 226 232 240;
+    --muted: 51 65 85;
+    --muted-foreground: 148 163 184;
+    --accent: 30 41 59;
+    --accent-foreground: 226 232 240;
+    --destructive: 239 68 68;
+    --destructive-foreground: 255 255 255;
+    --border: 51 65 85;
+    --input: 51 65 85;
+    --ring: 34 197 94;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-gray-200 dark:border-gray-700;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border border-gray-100/20 dark:border-gray-700/20;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .gradient-border {
+    @apply relative before:absolute before:inset-0 before:p-[1px] before:bg-gradient-to-r 
+           before:from-brand-400/50 before:to-brand-500/50 before:rounded-[inherit] 
+           before:content-[''] before:-z-10;
+  }
+
+  .section-padding {
+    @apply py-24 sm:py-32;
+  }
+
+  .container-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+}
+
+/* Enhanced Animations */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+.animate-glow {
+  animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-brand-500/50 rounded-full hover:bg-brand-500;
+}
+
+/* Typography Enhancements */
+.prose-custom {
+  @apply prose-headings:text-gray-900 dark:prose-headings:text-gray-100
+         prose-p:text-gray-600 dark:prose-p:text-gray-300
+         prose-strong:text-gray-900 dark:prose-strong:text-gray-100
+         prose-a:text-brand-600 dark:prose-a:text-brand-400
+         prose-code:text-brand-600 dark:prose-code:text-brand-400
+         prose-pre:bg-gray-50 dark:prose-pre:bg-gray-800/50
+         prose-blockquote:border-brand-500 dark:prose-blockquote:border-brand-400
+         prose-blockquote:bg-brand-50 dark:prose-blockquote:bg-brand-900/20;
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -83,10 +202,6 @@ textarea {
 }
 
 /* Enhanced Hover Effects */
-.hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
 .hover-lift:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
@@ -233,11 +348,6 @@ html {
   --foreground: 15 23 42;
 }
 
-.dark {
-  --background: 15 23 42;
-  --foreground: 248 250 252;
-}
-
 body {
   background-color: rgb(var(--background));
   color: rgb(var(--foreground));
@@ -245,38 +355,86 @@ body {
 
 /* Dark mode transitions */
 .dark-mode-transition {
-  transition: background-color 0.3s ease, 
-              color 0.3s ease, 
-              border-color 0.3s ease, 
-              fill 0.3s ease, 
-              stroke 0.3s ease;
+  @apply transition-all duration-300;
 }
 
 /* Dark mode specific styles */
 .dark {
-  @apply bg-dark-900 text-gray-100;
+  @apply bg-gray-900;
 
-  & .prose {
-    @apply prose-invert;
-    
-    & h1, & h2, & h3, & h4 {
-      @apply text-gray-100;
-    }
-    
-    & p, & li {
-      @apply text-gray-300;
-    }
-    
-    & code {
-      @apply bg-gray-800 text-emerald-400;
-    }
-    
-    & pre {
-      @apply bg-gray-800 border-gray-700;
-    }
-    
-    & blockquote {
-      @apply bg-gray-800/50 border-emerald-500;
+  /* Enhanced dark mode text */
+  h1, h2, h3, h4 {
+    @apply text-white;
+  }
+
+  p {
+    @apply text-gray-300;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-gray-800 border-gray-700;
+  }
+
+  /* Form elements */
+  input, textarea, select {
+    @apply bg-gray-700 border-gray-600 text-white;
+    &::placeholder {
+      @apply text-gray-400;
     }
   }
+
+  /* Button styles */
+  .btn-primary {
+    @apply bg-emerald-600 hover:bg-emerald-700;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-700 hover:bg-gray-600;
+  }
+
+  /* Glass effect */
+  .glass-effect {
+    @apply bg-gray-900/80 border-gray-800;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-emerald-400 to-teal-400;
+  }
+
+  /* Shadow effects */
+  .shadow-depth {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
+                0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Hover effects */
+  .hover-lift:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Section transitions */
+  .section-transition::before {
+    @apply bg-gradient-to-b from-transparent to-gray-900/10;
+  }
+}
+
+/* Add to your existing CSS */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
 }
