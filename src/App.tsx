@@ -8,7 +8,7 @@ import {
 import { Analytics } from '@vercel/analytics/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useInView } from 'react-intersection-observer';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
 import { Header } from './components/layout/Header';
 import { CommandMenu } from './components/CommandMenu';
@@ -547,54 +547,123 @@ export function App() {
 
         {/* Contact Section */}
         <section id="contact" className="py-24 bg-gradient-to-br from-white to-emerald-50 
-                           dark:from-gray-900 dark:to-gray-800">
-          <div className="container mx-auto px-6">
-            <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
-              Get In Touch
-            </h2>
-            <div className="max-w-2xl mx-auto">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
-                             bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                             focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400"
-                  />
+                           dark:from-gray-900 dark:to-gray-800 relative overflow-hidden">
+          {/* Decorative background elements */}
+          <div className="absolute inset-0 opacity-30 dark:opacity-20">
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-200 dark:bg-emerald-800/30 
+                            rounded-full mix-blend-multiply dark:mix-blend-lighten blur-3xl animate-float" />
+            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-200 dark:bg-teal-800/30 
+                            rounded-full mix-blend-multiply dark:mix-blend-lighten blur-3xl animate-float delay-300" />
+          </div>
+
+          <div className="container mx-auto px-6 relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="max-w-2xl mx-auto"
+            >
+              <div className="text-center mb-12">
+                <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                  Get In Touch
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300">
+                  Ready to transform your idea into reality? Let's start the conversation.
+                </p>
+              </div>
+
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl p-8 
+                              shadow-lg border border-gray-100 dark:border-gray-700">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Name
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        required
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 
+                                 bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                                 focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400
+                                 transition-colors duration-200 ease-in-out
+                                 placeholder-gray-400 dark:placeholder-gray-500"
+                        placeholder="John Doe"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        required
+                        className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 
+                                 bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                                 focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400
+                                 transition-colors duration-200 ease-in-out
+                                 placeholder-gray-400 dark:placeholder-gray-500"
+                        placeholder="john@example.com"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Message
+                    </label>
+                    <textarea
+                      name="message"
+                      required
+                      rows={6}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 
+                               bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                               focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400
+                               transition-colors duration-200 ease-in-out
+                               placeholder-gray-400 dark:placeholder-gray-500"
+                      placeholder="Tell us about your project..."
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between pt-4">
+                    <div className="flex items-center space-x-6 text-gray-600 dark:text-gray-400">
+                      <a href="mailto:contact@appsnap.dev" className="flex items-center space-x-2 hover:text-emerald-500 transition-colors">
+                        <Mail className="w-5 h-5" />
+                        <span>contact@appsnap.dev</span>
+                      </a>
+                      <a href="tel:+1234567890" className="flex items-center space-x-2 hover:text-emerald-500 transition-colors">
+                        <Phone className="w-5 h-5" />
+                        <span>+1 (234) 567-890</span>
+                      </a>
+                    </div>
+                    <motion.button
+                      type="submit"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="bg-emerald-500 text-white px-8 py-3 rounded-full 
+                               hover:bg-emerald-600 transform hover:-translate-y-0.5 
+                               transition-all duration-200 flex items-center space-x-2
+                               shadow-lg hover:shadow-xl"
+                    >
+                      <Send className="w-5 h-5" />
+                      <span>Send Message</span>
+                    </motion.button>
+                  </div>
+                </form>
+              </div>
+
+              {/* Social proof or additional contact info */}
+              <div className="mt-12 text-center">
+                <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  Trusted by companies worldwide
+                </p>
+                <div className="flex justify-center items-center space-x-8 opacity-50">
+                  {/* Add your client logos here */}
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
-                             bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                             focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Message
-                  </label>
-                  <textarea
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
-                             bg-white dark:bg-gray-700 text-gray-900 dark:text-white
-                             focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400"
-                    rows={4}
-                  ></textarea>
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-emerald-500 text-white py-2 px-6 rounded-full hover:bg-emerald-600 transition duration-300 flex items-center justify-center"
-                >
-                  Send Message
-                </button>
-              </form>
-            </div>
+              </div>
+            </motion.div>
           </div>
         </section>
 
@@ -606,485 +675,488 @@ export function App() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-0 sm:p-4"
           >
-            <motion.div 
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="bg-white dark:bg-gray-900 w-full h-full sm:h-auto sm:rounded-2xl sm:max-w-4xl sm:w-full 
-                         sm:max-h-[90vh] overflow-y-auto shadow-depth modal-mobile sm:modal-desktop"
-            >
-              <div className="sticky top-0 bg-white dark:bg-gray-900 z-10 border-b border-gray-100 dark:border-gray-800 rounded-t-2xl shadow-sm">
-                <div className="p-6 flex justify-between items-center">
-                  <div>
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Project Requirements Document</h2>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">Tell us about your dream project</p>
+            <AnimatePresence>
+              <motion.div 
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                className="bg-white dark:bg-gray-900 w-full h-full sm:h-auto sm:rounded-2xl sm:max-w-4xl sm:w-full 
+                           sm:max-h-[90vh] overflow-y-auto shadow-depth modal-mobile sm:modal-desktop"
+              >
+                <div className="sticky top-0 bg-white dark:bg-gray-900 z-10 border-b border-gray-100 dark:border-gray-800 rounded-t-2xl shadow-sm">
+                  <div className="p-6 flex justify-between items-center">
+                    <div>
+                      <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Project Requirements Document</h2>
+                      <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">Tell us about your dream project</p>
+                    </div>
+                    <button 
+                      onClick={() => setIsPRDModalOpen(false)}
+                      className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 
+                               hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded-full transition-colors"
+                    >
+                      <X className="w-6 h-6" />
+                    </button>
                   </div>
-                  <button 
-                    onClick={() => setIsPRDModalOpen(false)}
-                    className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 
-                             hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded-full transition-colors"
-                  >
-                    <X className="w-6 h-6" />
-                  </button>
                 </div>
-              </div>
 
-              <div className="p-6">
-                <form onSubmit={handlePRDSubmit} className="space-y-8">
-                  {/* Project Overview Section */}
-                  <div className="space-y-6">
-                    <div className="flex items-center space-x-2 mb-4">
-                      <FileText className="w-5 h-5 text-emerald-500" />
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Project Overview</h3>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 gap-6">
-                      <div className="form-section hover:shadow-md p-4 rounded-lg relative dark:bg-gray-800/50">
-                        <div className="flex items-center justify-between mb-1">
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Project Goals
-                          </label>
-                          <button
-                            type="button"
-                            onClick={() => toggleTooltip('projectGoals')}
-                            className="text-gray-400 hover:text-emerald-500 transition-colors"
-                          >
-                            <Info className="w-4 h-4" />
-                          </button>
-                        </div>
-                        
-                        <Tooltip
-                          isOpen={tooltips.projectGoals}
-                          onClose={() => toggleTooltip('projectGoals')}
-                        >
-                          "To create a mobile app that helps users track their daily water intake, 
-                          set hydration goals, and receive smart reminders. The app should increase 
-                          user's daily water consumption by 30% within the first month."
-                        </Tooltip>
-                        
-                        <textarea
-                          value={prdFormData.projectGoals}
-                          onChange={(e) => setPRDFormData({...prdFormData, projectGoals: e.target.value})}
-                          placeholder="What are the main objectives of your project?"
-                          className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
-                                   dark:text-gray-100 dark:placeholder-gray-500
-                                   focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                          rows={3}
-                          required
-                        />
+                <div className="p-6">
+                  <form onSubmit={handlePRDSubmit} className="space-y-8">
+                    {/* Project Overview Section */}
+                    <div className="space-y-6">
+                      <div className="flex items-center space-x-2 mb-4">
+                        <FileText className="w-5 h-5 text-emerald-500" />
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Project Overview</h3>
                       </div>
-
-                      <div className="form-section hover:shadow-md p-4 rounded-lg dark:bg-gray-800/50">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Key Milestones
-                        </label>
-                        <div className="space-y-2">
-                          {['MVP Launch', 'Beta Testing', 'Full Release', 'Market Expansion'].map((milestone) => (
-                            <label key={milestone} className="flex items-center space-x-2">
-                              <input
-                                type="checkbox"
-                                checked={prdFormData.keyMilestones.includes(milestone)}
-                                onChange={(e) => {
-                                  const updatedMilestones = e.target.checked
-                                    ? [...prdFormData.keyMilestones, milestone]
-                                    : prdFormData.keyMilestones.filter(m => m !== milestone);
-                                  setPRDFormData({...prdFormData, keyMilestones: updatedMilestones});
-                                }}
-                                className="rounded border-gray-300 dark:border-gray-600 text-emerald-500 
-                                         focus:ring-emerald-500 dark:bg-gray-700"
-                              />
-                              <span className="text-gray-700 dark:text-gray-300">{milestone}</span>
+                      
+                      <div className="grid grid-cols-1 gap-6">
+                        <div className="form-section hover:shadow-md p-4 rounded-lg relative dark:bg-gray-800/50">
+                          <div className="flex items-center justify-between mb-1">
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                              Project Goals
                             </label>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Business Requirements Section */}
-                  <div className="space-y-6">
-                    <div className="flex items-center space-x-2 mb-4">
-                      <BarChart className="w-5 h-5 text-emerald-500" />
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Business Requirements</h3>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="form-section hover:shadow-md p-4 rounded-lg">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Business Model
-                        </label>
-                        <select
-                          value={prdFormData.businessModel}
-                          onChange={(e) => setPRDFormData({...prdFormData, businessModel: e.target.value})}
-                          className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
-                                   dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                          required
-                        >
-                          <option value="" className="dark:text-gray-900">Select Business Model</option>
-                          <option value="b2c" className="dark:text-gray-900">B2C</option>
-                          <option value="b2b" className="dark:text-gray-900">B2B</option>
-                          <option value="b2b2c" className="dark:text-gray-900">B2B2C</option>
-                          <option value="c2c" className="dark:text-gray-900">C2C</option>
-                          <option value="marketplace" className="dark:text-gray-900">Marketplace</option>
-                        </select>
-                      </div>
-
-                      <div className="form-section hover:shadow-md p-4 rounded-lg">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Revenue Streams
-                        </label>
-                        <div className="space-y-2">
-                          {[
-                            'Subscription Fees',
-                            'Transaction Fees',
-                            'Advertising',
-                            'Premium Features',
-                            'Data Monetization',
-                            'Affiliate Marketing'
-                          ].map((stream) => (
-                            <label key={stream} className="flex items-center space-x-2">
-                              <input
-                                type="checkbox"
-                                checked={prdFormData.revenueStreams.includes(stream)}
-                                onChange={(e) => {
-                                  const updatedStreams = e.target.checked
-                                    ? [...prdFormData.revenueStreams, stream]
-                                    : prdFormData.revenueStreams.filter(s => s !== stream);
-                                  setPRDFormData({...prdFormData, revenueStreams: updatedStreams});
-                                }}
-                                className="rounded border-gray-300 dark:border-gray-600 text-emerald-500 
-                                         focus:ring-emerald-500 dark:bg-gray-700"
-                              />
-                              <span className="text-gray-700 dark:text-gray-300">{stream}</span>
-                            </label>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* User Requirements Section */}
-                  <div className="space-y-6">
-                    <div className="flex items-center space-x-2 mb-4">
-                      <Users className="w-5 h-5 text-emerald-500" />
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">User Requirements</h3>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 gap-6">
-                      <div className="form-section hover:shadow-md p-4 rounded-lg relative dark:bg-gray-800/50">
-                        <div className="flex items-center justify-between mb-1">
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            User Personas
-                          </label>
-                          <button
-                            type="button"
-                            onClick={() => toggleTooltip('userPersonas')}
-                            className="text-gray-400 hover:text-emerald-500 transition-colors"
-                          >
-                            <Info className="w-4 h-4" />
-                          </button>
-                        </div>
-                        
-                        <Tooltip
-                          isOpen={tooltips.userPersonas}
-                          onClose={() => toggleTooltip('userPersonas')}
-                        >
-                          "Primary: Health-conscious professionals (25-40 years old) who use smartphones daily.
-                          Secondary: Fitness trainers who want to track their clients' hydration.
-                          Both groups are tech-savvy and value convenience."
-                        </Tooltip>
-                        
-                        <textarea
-                          value={prdFormData.userPersonas}
-                          onChange={(e) => setPRDFormData({...prdFormData, userPersonas: e.target.value})}
-                          placeholder="Describe your target users (age, occupation, tech-savviness, etc.)"
-                          className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
-                                   dark:text-gray-100 dark:placeholder-gray-500
-                                   focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                          rows={3}
-                          required
-                        />
-                      </div>
-
-                      <div className="form-section hover:shadow-md p-4 rounded-lg dark:bg-gray-800/50">
-                        <div className="flex items-center justify-between mb-1">
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            User Pain Points
-                          </label>
-                          <button
-                            type="button"
-                            onClick={() => toggleTooltip('userPainPoints')}
-                            className="text-gray-400 hover:text-emerald-500 transition-colors"
-                          >
-                            <Info className="w-4 h-4" />
-                          </button>
-                        </div>
-                        
-                        <Tooltip
-                          isOpen={tooltips.userPainPoints}
-                          onClose={() => toggleTooltip('userPainPoints')}
-                          title="Pain Points Example:"
-                        >
-                          <ul className="space-y-2">
-                            <li>• Users struggle to maintain consistent water intake due to busy schedules</li>
-                            <li>• Existing apps don't consider individual hydration needs based on activity level</li>
-                            <li>• No easy way to track water intake across different container sizes</li>
-                            <li>• Lack of meaningful insights about hydration patterns over time</li>
-                            <li>• Missing social features to encourage accountability</li>
-                          </ul>
-                        </Tooltip>
-                        
-                        <textarea
-                          value={prdFormData.userPainPoints}
-                          onChange={(e) => setPRDFormData({...prdFormData, userPainPoints: e.target.value})}
-                          placeholder="What problems are your users facing that your app will solve?"
-                          className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
-                                   dark:text-gray-100 dark:placeholder-gray-500
-                                   focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                          rows={3}
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Technical Requirements Section */}
-                  <div className="space-y-6">
-                    <div className="flex items-center space-x-2 mb-4">
-                      <Code className="w-5 h-5 text-emerald-500" />
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Technical Requirements</h3>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="form-section hover:shadow-md p-4 rounded-lg relative dark:bg-gray-800/50">
-                        <div className="flex items-center justify-between mb-1">
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Performance Requirements
-                          </label>
-                          <button
-                            type="button"
-                            onClick={() => toggleTooltip('performance')}
-                            className="text-gray-400 hover:text-emerald-500 transition-colors"
-                          >
-                            <Info className="w-4 h-4" />
-                          </button>
-                        </div>
-                        
-                        <Tooltip
-                          isOpen={tooltips.performance}
-                          onClose={() => toggleTooltip('performance')}
-                        >
-                          <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-2">
-                            <li>• Under 1s: Best for consumer apps with frequent use</li>
-                            <li>• Under 2s: Standard for most business applications</li>
-                            <li>• Under 3s: Acceptable for data-heavy operations</li>
-                          </ul>
-                        </Tooltip>
-                        
-                        <div className="space-y-4">
-                          <div>
-                            <label className="text-sm text-gray-600">Page Load Time</label>
-                            <select
-                              value={prdFormData.performanceRequirements.loadTime}
-                              onChange={(e) => setPRDFormData({
-                                ...prdFormData,
-                                performanceRequirements: {
-                                  ...prdFormData.performanceRequirements,
-                                  loadTime: e.target.value
-                                }
-                              })}
-                              className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
-                                       dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            <button
+                              type="button"
+                              onClick={() => toggleTooltip('projectGoals')}
+                              className="text-gray-400 hover:text-emerald-500 transition-colors"
                             >
-                              <option value="" className="dark:text-gray-900">Select Target Load Time</option>
-                              <option value="1s" className="dark:text-gray-900">Under 1 second</option>
-                              <option value="2s" className="dark:text-gray-900">Under 2 seconds</option>
-                              <option value="3s" className="dark:text-gray-900">Under 3 seconds</option>
-                            </select>
+                              <Info className="w-4 h-4" />
+                            </button>
                           </div>
                           
-                          <div>
-                            <label className="text-sm text-gray-600">Concurrent Users</label>
-                            <select
-                              value={prdFormData.performanceRequirements.concurrent}
-                              onChange={(e) => setPRDFormData({
-                                ...prdFormData,
-                                performanceRequirements: {
-                                  ...prdFormData.performanceRequirements,
-                                  concurrent: e.target.value
-                                }
-                              })}
-                              className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
-                                       dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                            >
-                              <option value="" className="dark:text-gray-900">Select Concurrent Users</option>
-                              <option value="100" className="dark:text-gray-900">Up to 100</option>
-                              <option value="1000" className="dark:text-gray-900">Up to 1,000</option>
-                              <option value="10000" className="dark:text-gray-900">Up to 10,000</option>
-                              <option value="100000" className="dark:text-gray-900">Up to 100,000+</option>
-                            </select>
+                          <Tooltip
+                            isOpen={tooltips.projectGoals}
+                            onClose={() => toggleTooltip('projectGoals')}
+                          >
+                            "To create a mobile app that helps users track their daily water intake, 
+                            set hydration goals, and receive smart reminders. The app should increase 
+                            user's daily water consumption by 30% within the first month."
+                          </Tooltip>
+                          
+                          <textarea
+                            value={prdFormData.projectGoals}
+                            onChange={(e) => setPRDFormData({...prdFormData, projectGoals: e.target.value})}
+                            placeholder="What are the main objectives of your project?"
+                            className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                     dark:text-gray-100 dark:placeholder-gray-500
+                                     focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            rows={3}
+                            required
+                          />
+                        </div>
+
+                        <div className="form-section hover:shadow-md p-4 rounded-lg dark:bg-gray-800/50">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Key Milestones
+                          </label>
+                          <div className="space-y-2">
+                            {['MVP Launch', 'Beta Testing', 'Full Release', 'Market Expansion'].map((milestone) => (
+                              <label key={milestone} className="flex items-center space-x-2">
+                                <input
+                                  type="checkbox"
+                                  checked={prdFormData.keyMilestones.includes(milestone)}
+                                  onChange={(e) => {
+                                    const updatedMilestones = e.target.checked
+                                      ? [...prdFormData.keyMilestones, milestone]
+                                      : prdFormData.keyMilestones.filter(m => m !== milestone);
+                                    setPRDFormData({...prdFormData, keyMilestones: updatedMilestones});
+                                  }}
+                                  className="rounded border-gray-300 dark:border-gray-600 text-emerald-500 
+                                           focus:ring-emerald-500 dark:bg-gray-700"
+                                />
+                                <span className="text-gray-700 dark:text-gray-300">{milestone}</span>
+                              </label>
+                            ))}
                           </div>
                         </div>
                       </div>
+                    </div>
 
-                      <div className="form-section hover:shadow-md p-4 rounded-lg">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Device & Browser Support
-                        </label>
-                        <div className="space-y-2">
-                          {['iOS', 'Android', 'Windows', 'macOS', 'Linux'].map((device) => (
-                            <label key={device} className="flex items-center space-x-2">
+                    {/* Business Requirements Section */}
+                    <div className="space-y-6">
+                      <div className="flex items-center space-x-2 mb-4">
+                        <BarChart className="w-5 h-5 text-emerald-500" />
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Business Requirements</h3>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="form-section hover:shadow-md p-4 rounded-lg">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Business Model
+                          </label>
+                          <select
+                            value={prdFormData.businessModel}
+                            onChange={(e) => setPRDFormData({...prdFormData, businessModel: e.target.value})}
+                            className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                     dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            required
+                          >
+                            <option value="" className="dark:text-gray-900">Select Business Model</option>
+                            <option value="b2c" className="dark:text-gray-900">B2C</option>
+                            <option value="b2b" className="dark:text-gray-900">B2B</option>
+                            <option value="b2b2c" className="dark:text-gray-900">B2B2C</option>
+                            <option value="c2c" className="dark:text-gray-900">C2C</option>
+                            <option value="marketplace" className="dark:text-gray-900">Marketplace</option>
+                          </select>
+                        </div>
+
+                        <div className="form-section hover:shadow-md p-4 rounded-lg">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Revenue Streams
+                          </label>
+                          <div className="space-y-2">
+                            {[
+                              'Subscription Fees',
+                              'Transaction Fees',
+                              'Advertising',
+                              'Premium Features',
+                              'Data Monetization',
+                              'Affiliate Marketing'
+                            ].map((stream) => (
+                              <label key={stream} className="flex items-center space-x-2">
+                                <input
+                                  type="checkbox"
+                                  checked={prdFormData.revenueStreams.includes(stream)}
+                                  onChange={(e) => {
+                                    const updatedStreams = e.target.checked
+                                      ? [...prdFormData.revenueStreams, stream]
+                                      : prdFormData.revenueStreams.filter(s => s !== stream);
+                                    setPRDFormData({...prdFormData, revenueStreams: updatedStreams});
+                                  }}
+                                  className="rounded border-gray-300 dark:border-gray-600 text-emerald-500 
+                                           focus:ring-emerald-500 dark:bg-gray-700"
+                                />
+                                <span className="text-gray-700 dark:text-gray-300">{stream}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* User Requirements Section */}
+                    <div className="space-y-6">
+                      <div className="flex items-center space-x-2 mb-4">
+                        <Users className="w-5 h-5 text-emerald-500" />
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">User Requirements</h3>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 gap-6">
+                        <div className="form-section hover:shadow-md p-4 rounded-lg relative dark:bg-gray-800/50">
+                          <div className="flex items-center justify-between mb-1">
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                              User Personas
+                            </label>
+                            <button
+                              type="button"
+                              onClick={() => toggleTooltip('userPersonas')}
+                              className="text-gray-400 hover:text-emerald-500 transition-colors"
+                            >
+                              <Info className="w-4 h-4" />
+                            </button>
+                          </div>
+                          
+                          <Tooltip
+                            isOpen={tooltips.userPersonas}
+                            onClose={() => toggleTooltip('userPersonas')}
+                          >
+                            "Primary: Health-conscious professionals (25-40 years old) who use smartphones daily.
+                            Secondary: Fitness trainers who want to track their clients' hydration.
+                            Both groups are tech-savvy and value convenience."
+                          </Tooltip>
+                          
+                          <textarea
+                            value={prdFormData.userPersonas}
+                            onChange={(e) => setPRDFormData({...prdFormData, userPersonas: e.target.value})}
+                            placeholder="Describe your target users (age, occupation, tech-savviness, etc.)"
+                            className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                     dark:text-gray-100 dark:placeholder-gray-500
+                                     focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            rows={3}
+                            required
+                          />
+                        </div>
+
+                        <div className="form-section hover:shadow-md p-4 rounded-lg dark:bg-gray-800/50">
+                          <div className="flex items-center justify-between mb-1">
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                              User Pain Points
+                            </label>
+                            <button
+                              type="button"
+                              onClick={() => toggleTooltip('userPainPoints')}
+                              className="text-gray-400 hover:text-emerald-500 transition-colors"
+                            >
+                              <Info className="w-4 h-4" />
+                            </button>
+                          </div>
+                          
+                          <Tooltip
+                            isOpen={tooltips.userPainPoints}
+                            onClose={() => toggleTooltip('userPainPoints')}
+                            title="Pain Points Example:"
+                          >
+                            <ul className="space-y-2">
+                              <li>• Users struggle to maintain consistent water intake due to busy schedules</li>
+                              <li>• Existing apps don't consider individual hydration needs based on activity level</li>
+                              <li>• No easy way to track water intake across different container sizes</li>
+                              <li>• Lack of meaningful insights about hydration patterns over time</li>
+                              <li>• Missing social features to encourage accountability</li>
+                            </ul>
+                          </Tooltip>
+                          
+                          <textarea
+                            value={prdFormData.userPainPoints}
+                            onChange={(e) => setPRDFormData({...prdFormData, userPainPoints: e.target.value})}
+                            placeholder="What problems are your users facing that your app will solve?"
+                            className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                     dark:text-gray-100 dark:placeholder-gray-500
+                                     focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            rows={3}
+                            required
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Technical Requirements Section */}
+                    <div className="space-y-6">
+                      <div className="flex items-center space-x-2 mb-4">
+                        <Code className="w-5 h-5 text-emerald-500" />
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Technical Requirements</h3>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="form-section hover:shadow-md p-4 rounded-lg relative dark:bg-gray-800/50">
+                          <div className="flex items-center justify-between mb-1">
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                              Performance Requirements
+                            </label>
+                            <button
+                              type="button"
+                              onClick={() => toggleTooltip('performance')}
+                              className="text-gray-400 hover:text-emerald-500 transition-colors"
+                            >
+                              <Info className="w-4 h-4" />
+                            </button>
+                          </div>
+                          
+                          <Tooltip
+                            isOpen={tooltips.performance}
+                            onClose={() => toggleTooltip('performance')}
+                          >
+                            <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                              <li>• Under 1s: Best for consumer apps with frequent use</li>
+                              <li>• Under 2s: Standard for most business applications</li>
+                              <li>• Under 3s: Acceptable for data-heavy operations</li>
+                            </ul>
+                          </Tooltip>
+                          
+                          <div className="space-y-4">
+                            <div>
+                              <label className="text-sm text-gray-600">Page Load Time</label>
+                              <select
+                                value={prdFormData.performanceRequirements.loadTime}
+                                onChange={(e) => setPRDFormData({
+                                  ...prdFormData,
+                                  performanceRequirements: {
+                                    ...prdFormData.performanceRequirements,
+                                    loadTime: e.target.value
+                                  }
+                                })}
+                                className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                         dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                              >
+                                <option value="" className="dark:text-gray-900">Select Target Load Time</option>
+                                <option value="1s" className="dark:text-gray-900">Under 1 second</option>
+                                <option value="2s" className="dark:text-gray-900">Under 2 seconds</option>
+                                <option value="3s" className="dark:text-gray-900">Under 3 seconds</option>
+                              </select>
+                            </div>
+                            
+                            <div>
+                              <label className="text-sm text-gray-600">Concurrent Users</label>
+                              <select
+                                value={prdFormData.performanceRequirements.concurrent}
+                                onChange={(e) => setPRDFormData({
+                                  ...prdFormData,
+                                  performanceRequirements: {
+                                    ...prdFormData.performanceRequirements,
+                                    concurrent: e.target.value
+                                  }
+                                })}
+                                className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                         dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                              >
+                                <option value="" className="dark:text-gray-900">Select Concurrent Users</option>
+                                <option value="100" className="dark:text-gray-900">Up to 100</option>
+                                <option value="1000" className="dark:text-gray-900">Up to 1,000</option>
+                                <option value="10000" className="dark:text-gray-900">Up to 10,000</option>
+                                <option value="100000" className="dark:text-gray-900">Up to 100,000+</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="form-section hover:shadow-md p-4 rounded-lg">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Device & Browser Support
+                          </label>
+                          <div className="space-y-2">
+                            {['iOS', 'Android', 'Windows', 'macOS', 'Linux'].map((device) => (
+                              <label key={device} className="flex items-center space-x-2">
+                                <input
+                                  type="checkbox"
+                                  checked={prdFormData.deviceSupport.includes(device)}
+                                  onChange={(e) => {
+                                    const updatedDevices = e.target.checked
+                                      ? [...prdFormData.deviceSupport, device]
+                                      : prdFormData.deviceSupport.filter(d => d !== device);
+                                    setPRDFormData({...prdFormData, deviceSupport: updatedDevices});
+                                  }}
+                                  className="rounded border-gray-300 dark:border-gray-600 text-emerald-500 
+                                           focus:ring-emerald-500 dark:bg-gray-700"
+                                />
+                                <span className="text-gray-700 dark:text-gray-300">{device}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Design Requirements Section */}
+                    <div className="space-y-6">
+                      <div className="flex items-center space-x-2 mb-4">
+                        <Palette className="w-5 h-5 text-emerald-500" />
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Design Requirements</h3>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="form-section hover:shadow-md p-4 rounded-lg">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Brand Guidelines
+                          </label>
+                          <div className="space-y-2">
+                            <label className="flex items-center space-x-2">
                               <input
                                 type="checkbox"
-                                checked={prdFormData.deviceSupport.includes(device)}
-                                onChange={(e) => {
-                                  const updatedDevices = e.target.checked
-                                    ? [...prdFormData.deviceSupport, device]
-                                    : prdFormData.deviceSupport.filter(d => d !== device);
-                                  setPRDFormData({...prdFormData, deviceSupport: updatedDevices});
-                                }}
-                                className="rounded border-gray-300 dark:border-gray-600 text-emerald-500 
-                                         focus:ring-emerald-500 dark:bg-gray-700"
+                                checked={prdFormData.brandGuidelines}
+                                onChange={(e) => setPRDFormData({...prdFormData, brandGuidelines: e.target.checked})}
+                                className="rounded border-gray-300 text-emerald-500 focus:ring-emerald-500"
                               />
-                              <span className="text-gray-700 dark:text-gray-300">{device}</span>
+                              <span>Existing Brand Guidelines Available</span>
                             </label>
-                          ))}
+                          </div>
+                          <textarea
+                            value={prdFormData.designPreferences}
+                            onChange={(e) => setPRDFormData({...prdFormData, designPreferences: e.target.value})}
+                            placeholder="Describe your design preferences, color schemes, or specific style requirements"
+                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 mt-4"
+                            rows={3}
+                          />
                         </div>
-                      </div>
-                    </div>
-                  </div>
 
-                  {/* Design Requirements Section */}
-                  <div className="space-y-6">
-                    <div className="flex items-center space-x-2 mb-4">
-                      <Palette className="w-5 h-5 text-emerald-500" />
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Design Requirements</h3>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="form-section hover:shadow-md p-4 rounded-lg">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Brand Guidelines
-                        </label>
-                        <div className="space-y-2">
-                          <label className="flex items-center space-x-2">
-                            <input
-                              type="checkbox"
-                              checked={prdFormData.brandGuidelines}
-                              onChange={(e) => setPRDFormData({...prdFormData, brandGuidelines: e.target.checked})}
-                              className="rounded border-gray-300 text-emerald-500 focus:ring-emerald-500"
-                            />
-                            <span>Existing Brand Guidelines Available</span>
+                        <div className="form-section hover:shadow-md p-4 rounded-lg">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Special Requirements
                           </label>
+                          <div className="space-y-2">
+                            <label className="flex items-center space-x-2">
+                              <input
+                                type="checkbox"
+                                checked={prdFormData.specialAnimations}
+                                onChange={(e) => setPRDFormData({...prdFormData, specialAnimations: e.target.checked})}
+                                className="rounded border-gray-300 text-emerald-500 focus:ring-emerald-500"
+                              />
+                              <span>Custom Animations Required</span>
+                            </label>
+                          </div>
+                          <input
+                            type="url"
+                            value={prdFormData.moodboardLinks}
+                            onChange={(e) => setPRDFormData({...prdFormData, moodboardLinks: e.target.value})}
+                            placeholder="Links to inspiration/moodboard (optional)"
+                            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 mt-4"
+                          />
                         </div>
-                        <textarea
-                          value={prdFormData.designPreferences}
-                          onChange={(e) => setPRDFormData({...prdFormData, designPreferences: e.target.value})}
-                          placeholder="Describe your design preferences, color schemes, or specific style requirements"
-                          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 mt-4"
-                          rows={3}
-                        />
                       </div>
+                    </div>
 
-                      <div className="form-section hover:shadow-md p-4 rounded-lg">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Special Requirements
-                        </label>
-                        <div className="space-y-2">
-                          <label className="flex items-center space-x-2">
-                            <input
-                              type="checkbox"
-                              checked={prdFormData.specialAnimations}
-                              onChange={(e) => setPRDFormData({...prdFormData, specialAnimations: e.target.checked})}
-                              className="rounded border-gray-300 text-emerald-500 focus:ring-emerald-500"
-                            />
-                            <span>Custom Animations Required</span>
+                    {/* Deployment & Maintenance Section */}
+                    <div className="space-y-6">
+                      <div className="flex items-center space-x-2 mb-4">
+                        <Cloud className="w-5 h-5 text-emerald-500" />
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Deployment & Maintenance</h3>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="form-section hover:shadow-md p-4 rounded-lg">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Hosting Preference
                           </label>
+                          <select
+                            value={prdFormData.hostingPreference}
+                            onChange={(e) => setPRDFormData({...prdFormData, hostingPreference: e.target.value})}
+                            className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                     dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          >
+                            <option value="" className="dark:text-gray-900">Select Hosting Preference</option>
+                            <option value="aws" className="dark:text-gray-900">AWS</option>
+                            <option value="gcp" className="dark:text-gray-900">Google Cloud</option>
+                            <option value="azure" className="dark:text-gray-900">Microsoft Azure</option>
+                            <option value="custom" className="dark:text-gray-900">Custom Solution</option>
+                          </select>
                         </div>
-                        <input
-                          type="url"
-                          value={prdFormData.moodboardLinks}
-                          onChange={(e) => setPRDFormData({...prdFormData, moodboardLinks: e.target.value})}
-                          placeholder="Links to inspiration/moodboard (optional)"
-                          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 mt-4"
-                        />
+
+                        <div className="form-section hover:shadow-md p-4 rounded-lg">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Update Frequency
+                          </label>
+                          <select
+                            value={prdFormData.updateFrequency}
+                            onChange={(e) => setPRDFormData({...prdFormData, updateFrequency: e.target.value})}
+                            className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
+                                     dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          >
+                            <option value="" className="dark:text-gray-900">Select Update Frequency</option>
+                            <option value="weekly" className="dark:text-gray-900">Weekly</option>
+                            <option value="biweekly" className="dark:text-gray-900">Bi-weekly</option>
+                            <option value="monthly" className="dark:text-gray-900">Monthly</option>
+                            <option value="quarterly" className="dark:text-gray-900">Quarterly</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Deployment & Maintenance Section */}
-                  <div className="space-y-6">
-                    <div className="flex items-center space-x-2 mb-4">
-                      <Cloud className="w-5 h-5 text-emerald-500" />
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Deployment & Maintenance</h3>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="form-section hover:shadow-md p-4 rounded-lg">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Hosting Preference
-                        </label>
-                        <select
-                          value={prdFormData.hostingPreference}
-                          onChange={(e) => setPRDFormData({...prdFormData, hostingPreference: e.target.value})}
-                          className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
-                                   dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    {/* Submit Section */}
+                    <div className="sticky bottom-0 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 
+                                   p-4 rounded-b-2xl shadow-depth">
+                      <div className="flex justify-between items-center">
+                        <button
+                          type="button"
+                          onClick={() => setIsPRDModalOpen(false)}
+                          className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-full 
+                                   hover:bg-gray-50 dark:hover:bg-gray-800 
+                                   transition duration-300 flex items-center space-x-2
+                                   text-gray-700 dark:text-gray-300"
                         >
-                          <option value="" className="dark:text-gray-900">Select Hosting Preference</option>
-                          <option value="aws" className="dark:text-gray-900">AWS</option>
-                          <option value="gcp" className="dark:text-gray-900">Google Cloud</option>
-                          <option value="azure" className="dark:text-gray-900">Microsoft Azure</option>
-                          <option value="custom" className="dark:text-gray-900">Custom Solution</option>
-                        </select>
-                      </div>
-
-                      <div className="form-section hover:shadow-md p-4 rounded-lg">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Update Frequency
-                        </label>
-                        <select
-                          value={prdFormData.updateFrequency}
-                          onChange={(e) => setPRDFormData({...prdFormData, updateFrequency: e.target.value})}
-                          className="w-full px-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 
-                                   dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                          <X className="w-4 h-4" />
+                          <span>Cancel</span>
+                        </button>
+                        <button
+                          type="submit"
+                          className="px-8 py-2 bg-emerald-500 text-white rounded-full hover:bg-emerald-600 
+                                   transition duration-300 flex items-center space-x-2 shadow-depth hover-lift"
                         >
-                          <option value="" className="dark:text-gray-900">Select Update Frequency</option>
-                          <option value="weekly" className="dark:text-gray-900">Weekly</option>
-                          <option value="biweekly" className="dark:text-gray-900">Bi-weekly</option>
-                          <option value="monthly" className="dark:text-gray-900">Monthly</option>
-                          <option value="quarterly" className="dark:text-gray-900">Quarterly</option>
-                        </select>
+                          <Send className="w-4 h-4" />
+                          <span>Submit PRD</span>
+                        </button>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Submit Section */}
-                  <div className="sticky bottom-0 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 
-                                 p-4 rounded-b-2xl shadow-depth">
-                    <div className="flex justify-between items-center">
-                      <button
-                        type="button"
-                        onClick={() => setIsPRDModalOpen(false)}
-                        className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-full 
-                                 hover:bg-gray-50 dark:hover:bg-gray-800 
-                                 transition duration-300 flex items-center space-x-2
-                                 text-gray-700 dark:text-gray-300"
-                      >
-                        <X className="w-4 h-4" />
-                        <span>Cancel</span>
-                      </button>
-                      <button
-                        type="submit"
-                        className="px-8 py-2 bg-emerald-500 text-white rounded-full hover:bg-emerald-600 
-                                 transition duration-300 flex items-center space-x-2 shadow-depth hover-lift"
-                      >
-                        <Send className="w-4 h-4" />
-                        <span>Submit PRD</span>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </motion.div>
+                  </form>
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </motion.div>
         )}
 
