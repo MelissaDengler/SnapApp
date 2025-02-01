@@ -58,33 +58,33 @@ export function ShareModal({ post, onClose }: ShareModalProps) {
         <div className="space-y-4">
           <button
             onClick={() => handleShare('twitter')}
-            className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors w-full"
+            className="btn-base flex items-center space-x-3 w-full"
           >
-            <Twitter className="w-6 h-6 text-blue-400" />
+            <Twitter className="w-6 h-6" />
             <span>Share on Twitter</span>
           </button>
 
           <button
             onClick={() => handleShare('facebook')}
-            className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors w-full"
+            className="btn-base flex items-center space-x-3 w-full"
           >
-            <Facebook className="w-6 h-6 text-blue-600" />
+            <Facebook className="w-6 h-6" />
             <span>Share on Facebook</span>
           </button>
 
           <button
             onClick={() => handleShare('linkedin')}
-            className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors w-full"
+            className="btn-base flex items-center space-x-3 w-full"
           >
-            <LinkedIn className="w-6 h-6 text-blue-700" />
+            <LinkedIn className="w-6 h-6" />
             <span>Share on LinkedIn</span>
           </button>
 
           <button
             onClick={copyLink}
-            className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors w-full"
+            className="btn-base flex items-center space-x-3 w-full"
           >
-            <Link className="w-6 h-6 text-gray-600" />
+            <Link className="w-6 h-6" />
             <span>Copy Link</span>
           </button>
         </div>

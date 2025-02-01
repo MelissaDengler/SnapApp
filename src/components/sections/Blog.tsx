@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, useAnimation, PanInfo } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Clock, User, Tag, Share2, MessageCircle, BookmarkPlus } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Clock, User, Tag, Share2, MessageCircle, BookmarkPlus, Cloud, Shield, BarChart } from 'lucide-react';
 import { format } from 'date-fns';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { SwipeIndicator } from '@/components/ui/SwipeIndicator';
@@ -10,6 +10,7 @@ import { ArticleModal } from '@/components/blog/ArticleModal';
 import { toast } from 'sonner';
 import { ReadingProgress } from '@/components/ui/ReadingProgress';
 import { FloatingShareButton } from '@/components/ui/FloatingShareButton';
+import { AnimatedHeading } from '@/components/ui/AnimatedHeading';
 
 interface BlogPost {
   id: string;
@@ -450,14 +451,16 @@ export function Blog() {
 
                           <button
                             onClick={() => handleReadMore(post)}
-                            className="bg-white dark:bg-gray-800 text-emerald-600 dark:text-emerald-400 
-                                     px-8 py-3 rounded-full font-semibold hover:bg-emerald-50 
-                                     dark:hover:bg-emerald-900/30 transition duration-300 
-                                     flex items-center shadow-depth hover-lift 
-                                     border border-emerald-100 dark:border-emerald-800 group"
+                            className="btn-base flex items-center space-x-2 group relative overflow-hidden"
                           >
-                            <span>Read More</span>
-                            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                            <span className="relative z-10">Read More</span>
+                            <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
+                            <motion.div
+                              className="absolute inset-0 bg-white/20"
+                              initial={{ scale: 0, opacity: 0 }}
+                              animate={{ scale: [0, 1.5, 1], opacity: [0, 0.2, 0] }}
+                              transition={{ duration: 1, repeat: Infinity }}
+                            />
                           </button>
                           {showHearts === post.id && <HeartsAnimation />}
                         </div>
@@ -474,10 +477,8 @@ export function Blog() {
             <>
               <button
                 onClick={prevSlide}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 
-                         bg-white dark:bg-gray-800 p-3 rounded-full shadow-depth 
-                         hover:scale-110 transition-transform z-10 hidden md:block
-                         text-gray-600 dark:text-gray-300"
+                className="btn-base absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 
+                         p-3 rounded-full z-10 hidden md:flex items-center justify-center"
                 aria-label="Previous article"
               >
                 <ArrowLeft className="w-6 h-6" />
@@ -485,10 +486,8 @@ export function Blog() {
 
               <button
                 onClick={nextSlide}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 
-                         bg-white dark:bg-gray-800 p-3 rounded-full shadow-depth 
-                         hover:scale-110 transition-transform z-10 hidden md:block
-                         text-gray-600 dark:text-gray-300"
+                className="btn-base absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 
+                         p-3 rounded-full z-10 hidden md:flex items-center justify-center"
                 aria-label="Next article"
               >
                 <ArrowRight className="w-6 h-6" />

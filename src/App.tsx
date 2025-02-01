@@ -21,6 +21,7 @@ import { Tooltip } from './components/ui/Tooltip';
 import { Blog } from './components/sections/Blog';
 import { HeartsAnimation } from './components/ui/HeartsAnimation';
 import { useDarkMode } from '@/hooks/useDarkMode';
+import { AnimatedHeading } from './components/ui/AnimatedHeading';
 
 interface FormData {
   name: string;
@@ -303,50 +304,197 @@ export function App() {
         <ScrollProgress />
 
         {/* Hero Section */}
-        <section className="pt-20 bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700 
-                           dark:from-emerald-900 dark:via-emerald-800 dark:to-teal-900 text-white">
-          <div className="container mx-auto px-6 py-24 text-center relative">
+        <section className="pt-20 relative overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0 z-0">
+            {/* Large center burst */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ 
+                  scale: [0.8, 1.2, 1],
+                  opacity: [0, 1, 0.8]
+                }}
+                transition={{ duration: 3, repeat: Infinity, repeatType: "reverse" }}
+                className="w-[800px] h-[800px] rounded-full bg-gradient-to-br 
+                          from-emerald-600 via-emerald-500 to-teal-400 
+                          blur-3xl opacity-20 dark:opacity-30"
+              />
+            </div>
+
+            {/* Smaller animated bursts */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">
-                Transform Your Ideas into
-                <span className="block mt-2 text-emerald-200">Reality</span>
-              </h1>
-              <p className="text-xl md:text-2xl mb-8 text-emerald-100 max-w-2xl mx-auto">
-                An App in a Snap™ - Rapid Development Solutions for Modern Businesses
-              </p>
-              <div className="mt-8 flex items-center justify-center relative">
-                <button
-                  onClick={() => {
-                    setShowHearts(true);
-                    // Open PRD modal after a slight delay for hearts animation
-                    setTimeout(() => setIsPRDModalOpen(true), 300);
-                    // Reset hearts animation
-                    setTimeout(() => setShowHearts(false), 2000);
+              animate={{ 
+                scale: [1, 1.2, 1],
+                opacity: [0.2, 0.3, 0.2]
+              }}
+              transition={{ duration: 4, repeat: Infinity, repeatType: "reverse" }}
+              className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full 
+                         bg-gradient-to-r from-emerald-300 to-teal-400 
+                         blur-2xl mix-blend-screen"
+            />
+            <motion.div
+              animate={{ 
+                scale: [1.2, 1, 1.2],
+                opacity: [0.2, 0.3, 0.2]
+              }}
+              transition={{ duration: 5, repeat: Infinity, repeatType: "reverse" }}
+              className="absolute bottom-1/4 left-1/4 w-96 h-96 rounded-full 
+                         bg-gradient-to-r from-green-400 via-emerald-500 to-teal-300 
+                         blur-2xl mix-blend-screen"
+            />
+
+            {/* Tech grid pattern */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f0f0f1a_1px,transparent_1px),linear-gradient(to_bottom,#0f0f0f1a_1px,transparent_1px)] 
+                            bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+
+            {/* Floating tech particles */}
+            <div className="absolute inset-0">
+              {[...Array(8)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ 
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    scale: 0
                   }}
-                  className="bg-white text-emerald-600 px-8 py-3 rounded-full font-semibold 
-                             hover:bg-emerald-50 transition duration-300 flex items-center space-x-2
-                             shadow-depth hover-lift"
-                >
-                  <span>Get Started</span>
-                  <ArrowRight className="w-5 h-5" />
-                </button>
-                {showHearts && <HeartsAnimation />}
-              </div>
-            </motion.div>
+                  animate={{ 
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    scale: [0, 1, 0]
+                  }}
+                  transition={{ 
+                    duration: 8 + Math.random() * 5,
+                    repeat: Infinity,
+                    repeatType: "loop"
+                  }}
+                  className="absolute w-2 h-2 rounded-full bg-emerald-400/30 
+                             shadow-[0_0_8px_3px_rgba(16,185,129,0.3)]"
+                />
+              ))}
+            </div>
+
+            {/* Gradient overlay for better text readability */}
+            <div className="absolute inset-0 bg-gradient-to-b 
+                            from-white/0 via-white/0 to-white/80 
+                            dark:from-gray-900/0 dark:via-gray-900/0 dark:to-gray-900/80" />
+          </div>
+
+          {/* Content */}
+          <div className="relative z-10">
+            <div className="container mx-auto px-6 py-24 text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in group
+                               text-gray-900 dark:text-white drop-shadow-sm relative">
+                  <span className="relative inline-block group-hover:scale-[1.02] transition-transform duration-300">
+                    Transform Your Ideas
+                    {/* Glitch effect on hover */}
+                    <motion.span
+                      className="absolute inset-0 text-emerald-500 opacity-0 -z-10"
+                      animate={{ 
+                        x: [-2, 2, -2],
+                        opacity: [0, 0.3, 0],
+                        scale: [1, 1.02, 1]
+                      }}
+                      transition={{ 
+                        duration: 0.3,
+                        repeat: Infinity,
+                        repeatType: "reverse"
+                      }}
+                    >
+                      Transform Your Ideas
+                    </motion.span>
+                  </span>
+                  <span className="block mt-2 relative">
+                    <span className="bg-clip-text text-transparent 
+                                    bg-gradient-to-r from-emerald-500 to-teal-500
+                                    dark:from-emerald-400 dark:to-teal-400
+                                    relative z-10 group-hover:scale-[1.02] transition-transform duration-300
+                                    inline-block">
+                      Reality
+                    </span>
+                    {/* Glow effect on hover */}
+                    <motion.div
+                      className="absolute inset-0 bg-emerald-500/20 blur-xl rounded-full -z-10
+                                 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0, 0.5, 0]
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "reverse"
+                      }}
+                    />
+                  </span>
+                </h1>
+                <p className="text-xl md:text-2xl mb-8 text-gray-800 dark:text-gray-200 max-w-2xl mx-auto 
+                              group relative hover:scale-[1.01] transition-transform duration-300">
+                  <span className="relative z-10">
+                    An App in a Snap™ - Rapid Development Solutions for Modern Businesses
+                  </span>
+                  {/* Tech particles that appear on hover */}
+                  <motion.div
+                    className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100"
+                    initial={false}
+                  >
+                    {[...Array(10)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className="absolute w-1 h-1 bg-emerald-400/30"
+                        initial={{ 
+                          x: "50%", 
+                          y: "50%",
+                          scale: 0 
+                        }}
+                        animate={{ 
+                          x: `${Math.random() * 100}%`,
+                          y: `${Math.random() * 100}%`,
+                          scale: [0, 1, 0]
+                        }}
+                        transition={{
+                          duration: 1 + Math.random(),
+                          repeat: Infinity,
+                          repeatType: "loop",
+                          delay: Math.random() * 0.5
+                        }}
+                      />
+                    ))}
+                  </motion.div>
+                </p>
+                <div className="mt-8 flex items-center justify-center relative">
+                  <button
+                    onClick={() => {
+                      setShowHearts(true);
+                      setTimeout(() => setIsPRDModalOpen(true), 300);
+                      setTimeout(() => setShowHearts(false), 2000);
+                    }}
+                    className="btn-base flex items-center space-x-2 text-lg"
+                  >
+                    <span>Get Started</span>
+                    <ArrowRight className="w-6 h-6" />
+                  </button>
+                  {showHearts && <HeartsAnimation />}
+                </div>
+              </motion.div>
+            </div>
           </div>
         </section>
 
-        {/* About Section */}
+        {/* About Section - First section after hero */}
         <section id="about" className="py-20 bg-gradient-to-b from-white via-emerald-50 to-white 
                            dark:from-gray-900 dark:via-emerald-900/10 dark:to-gray-900">
           <div className="container mx-auto px-6">
-            <h2 className="text-4xl font-bold text-center mb-16 text-gray-900 dark:text-white">
+            <AnimatedHeading 
+              className="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-16"
+            >
               Accelerating Digital Innovation
-            </h2>
+            </AnimatedHeading>
             <div className="grid md:grid-cols-3 gap-12">
               <div className="text-center transform hover:scale-105 transition duration-300">
                 <Clock className="w-12 h-12 text-emerald-500 mx-auto mb-4" />
@@ -371,9 +519,12 @@ export function App() {
         <section id="packages" className="py-24 bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-50 
                            dark:from-emerald-900/40 dark:via-emerald-800/20 dark:to-gray-900">
           <div className="container mx-auto px-6">
-            <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+            <AnimatedHeading 
+              variant="glitch"
+              className="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-12"
+            >
               Our Packages
-            </h2>
+            </AnimatedHeading>
             <div className="grid md:grid-cols-3 gap-8">
               {/* Starter Package */}
               <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-xl p-6 
@@ -409,6 +560,9 @@ export function App() {
                   </span>
                   <span className="text-gray-500 dark:text-gray-400 ml-2">/ project</span>
                 </div>
+                <button className="btn-base w-full mt-6">
+                  Get Started
+                </button>
               </div>
 
               {/* Pro Package */}
@@ -452,6 +606,9 @@ export function App() {
                   </span>
                   <span className="text-gray-500 dark:text-gray-400 ml-2">/ project</span>
                 </div>
+                <button className="btn-base w-full mt-6">
+                  Choose Pro
+                </button>
               </div>
 
               {/* Enterprise Package */}
@@ -494,6 +651,9 @@ export function App() {
                     For custom enterprise pricing
                   </span>
                 </div>
+                <button className="btn-base w-full mt-6">
+                  Contact Sales
+                </button>
               </div>
             </div>
           </div>
@@ -503,9 +663,12 @@ export function App() {
         <section id="testimonials" className="py-24 bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-50 
                            dark:from-emerald-900/40 dark:via-emerald-800/20 dark:to-gray-900">
           <div className="container mx-auto px-6">
-            <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
+            <AnimatedHeading 
+              variant="glitch"
+              className="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-12"
+            >
               What Our Clients Say
-            </h2>
+            </AnimatedHeading>
             <div className="grid md:grid-cols-3 gap-8">
               {testimonials.map((testimonial, index) => (
                 <div 
@@ -564,9 +727,12 @@ export function App() {
               className="max-w-2xl mx-auto"
             >
               <div className="text-center mb-12">
-                <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                <AnimatedHeading 
+                  variant="glitch"
+                  className="text-3xl md:text-4xl font-bold text-center text-gray-900 dark:text-white mb-4"
+                >
                   Get In Touch
-                </h2>
+                </AnimatedHeading>
                 <p className="text-gray-600 dark:text-gray-300">
                   Ready to transform your idea into reality? Let's start the conversation.
                 </p>
@@ -638,18 +804,19 @@ export function App() {
                         <span>+1 (234) 567-890</span>
                       </a>
                     </div>
-                    <motion.button
-                      type="submit"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="bg-emerald-500 text-white px-8 py-3 rounded-full 
-                               hover:bg-emerald-600 transform hover:-translate-y-0.5 
-                               transition-all duration-200 flex items-center space-x-2
-                               shadow-lg hover:shadow-xl"
+                    <button 
+                      type="submit" 
+                      className="btn-base flex items-center space-x-2 px-8"
                     >
                       <Send className="w-5 h-5" />
                       <span>Send Message</span>
-                    </motion.button>
+                      <motion.div
+                        className="absolute inset-0 bg-white/20"
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: [0, 1.5, 1], opacity: [0, 0.2, 0] }}
+                        transition={{ duration: 1, repeat: Infinity }}
+                      />
+                    </button>
                   </div>
                 </form>
               </div>
@@ -691,8 +858,7 @@ export function App() {
                     </div>
                     <button 
                       onClick={() => setIsPRDModalOpen(false)}
-                      className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 
-                               hover:bg-gray-100 dark:hover:bg-gray-800 p-2 rounded-full transition-colors"
+                      className="btn-base p-2 rounded-full"
                     >
                       <X className="w-6 h-6" />
                     </button>
@@ -1135,18 +1301,14 @@ export function App() {
                         <button
                           type="button"
                           onClick={() => setIsPRDModalOpen(false)}
-                          className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-full 
-                                   hover:bg-gray-50 dark:hover:bg-gray-800 
-                                   transition duration-300 flex items-center space-x-2
-                                   text-gray-700 dark:text-gray-300"
+                          className="btn-base px-6 py-2 flex items-center space-x-2"
                         >
                           <X className="w-4 h-4" />
                           <span>Cancel</span>
                         </button>
                         <button
                           type="submit"
-                          className="px-8 py-2 bg-emerald-500 text-white rounded-full hover:bg-emerald-600 
-                                   transition duration-300 flex items-center space-x-2 shadow-depth hover-lift"
+                          className="btn-base px-8 py-2 flex items-center space-x-2"
                         >
                           <Send className="w-4 h-4" />
                           <span>Submit PRD</span>

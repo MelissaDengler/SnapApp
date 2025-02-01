@@ -80,6 +80,208 @@
   .container-padding {
     @apply px-4 sm:px-6 lg:px-8;
   }
+
+  /* Neon Glow Button */
+  .btn-neon {
+    @apply relative overflow-hidden transition-all duration-300
+           bg-gradient-to-r from-emerald-500 to-teal-500
+           text-white font-medium px-6 py-3 rounded-full
+           shadow-[0_0_15px_rgba(16,185,129,0.5)]
+           hover:shadow-[0_0_25px_rgba(16,185,129,0.8)]
+           hover:scale-105;
+    
+    &::before {
+      @apply content-[''] absolute inset-0 
+             bg-gradient-to-r from-emerald-400 to-teal-400
+             opacity-0 transition-opacity duration-300;
+    }
+    
+    &:hover::before {
+      @apply opacity-30;
+    }
+    
+    &::after {
+      @apply content-[''] absolute inset-0
+             bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmYiIHN0b3Atb3BhY2l0eT0iMC4yIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9IjAiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCBmaWxsPSJ1cmwoI2cpIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIvPjwvc3ZnPg==')]
+             opacity-0 transition-opacity duration-300;
+    }
+    
+    &:hover::after {
+      @apply opacity-20;
+    }
+  }
+
+  /* Magnetic Button */
+  .btn-magnetic {
+    @apply relative transition-transform duration-200 ease-out;
+    transform-style: preserve-3d;
+    transform: perspective(800px) rotateX(0) rotateY(0);
+    
+    &:hover {
+      @apply shadow-lg;
+    }
+  }
+
+  /* Liquid Button */
+  .btn-liquid {
+    @apply relative overflow-hidden transition-all duration-300
+           bg-gradient-to-r from-emerald-500 to-teal-500
+           text-white font-medium px-6 py-3 rounded-full;
+    
+    &::before {
+      @apply content-[''] absolute -inset-[100%]
+             bg-gradient-to-r from-transparent via-white to-transparent
+             translate-x-[-100%] animate-[shimmer_2s_infinite];
+    }
+  }
+
+  /* Pulse Ring Button */
+  .btn-pulse {
+    @apply relative;
+    
+    &::before,
+    &::after {
+      @apply content-[''] absolute inset-0
+             rounded-[inherit] border-2 border-emerald-500
+             animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite];
+    }
+    
+    &::after {
+      animation-delay: 1s;
+    }
+  }
+
+  /* Particle Explosion Button */
+  .btn-particle {
+    @apply relative overflow-hidden;
+    
+    &::before {
+      @apply content-[''] absolute inset-0
+             bg-gradient-to-r from-emerald-400 to-teal-400
+             opacity-0 transition-opacity duration-300;
+    }
+    
+    &:hover::before {
+      @apply opacity-30;
+    }
+  }
+
+  /* 3D Push Button */
+  .btn-3d {
+    @apply relative transition-all duration-200
+           bg-gradient-to-r from-emerald-500 to-teal-500
+           text-white font-medium px-6 py-3 rounded-xl
+           shadow-[0_6px_0_rgb(5,150,105)]
+           active:translate-y-[6px] active:shadow-none;
+    
+    &::before {
+      @apply content-[''] absolute inset-0
+             bg-gradient-to-r from-white to-transparent
+             opacity-0 transition-opacity duration-200;
+    }
+    
+    &:hover::before {
+      @apply opacity-20;
+    }
+  }
+
+  /* Glitch Button */
+  .btn-glitch {
+    @apply relative overflow-hidden;
+    
+    &::before,
+    &::after {
+      @apply content-[''] absolute inset-0 bg-emerald-500 transition-transform duration-200;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+    
+    &::before {
+      @apply left-[2px] text-pink-500;
+      clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+    }
+    
+    &::after {
+      @apply left-[-2px] text-cyan-500;
+      clip-path: polygon(0 45%, 100% 45%, 100% 100%, 0 100%);
+    }
+    
+    &:hover::before {
+      @apply transform translate-x-[4px];
+    }
+    
+    &:hover::after {
+      @apply transform translate-x-[-4px];
+    }
+  }
+
+  /* Add this new professional button base style */
+  .btn-base {
+    @apply relative overflow-hidden
+           px-6 py-3 rounded-lg
+           font-semibold text-white
+           transition-all duration-300
+           bg-gradient-to-r from-emerald-500 to-teal-500
+           hover:scale-[1.02]
+           active:scale-[0.98];
+
+    /* Add depth with a subtle shadow by default */
+    box-shadow: 0 2px 10px rgba(16, 185, 129, 0.2);
+    
+    /* Dramatic hover glow effect */
+    &:hover {
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.6),
+                  0 0 60px rgba(16, 185, 129, 0.3),
+                  0 0 100px rgba(16, 185, 129, 0.1);
+    }
+
+    /* Inner gradient overlay for depth */
+    &::before {
+      @apply content-[''] absolute inset-0 
+             bg-gradient-to-b from-white/20 to-transparent
+             opacity-0 transition-opacity duration-300;
+    }
+
+    &:hover::before {
+      @apply opacity-100;
+    }
+
+    /* Animated shine effect on hover */
+    &::after {
+      @apply content-[''] absolute inset-0
+             bg-gradient-to-r from-transparent via-white/30 to-transparent
+             -translate-x-[100%] transition-transform duration-1000;
+      background-size: 200% 100%;
+    }
+
+    &:hover::after {
+      @apply translate-x-[100%];
+    }
+  }
+
+  /* Dark mode enhancements */
+  .dark .btn-base {
+    box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+    
+    &:hover {
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.8),
+                  0 0 60px rgba(16, 185, 129, 0.4),
+                  0 0 100px rgba(16, 185, 129, 0.2);
+    }
+  }
+
+  /* Add these keyframes for the glow pulse */
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.6),
+                  0 0 60px rgba(16, 185, 129, 0.3),
+                  0 0 100px rgba(16, 185, 129, 0.1);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(16, 185, 129, 0.8),
+                  0 0 80px rgba(16, 185, 129, 0.4),
+                  0 0 120px rgba(16, 185, 129, 0.2);
+    }
+  }
 }
 
 /* Enhanced Animations */
@@ -564,4 +766,55 @@ body {
 
 @keyframes shimmer {
   100% { transform: translateX(100%); }
+}
+
+/* Add these keyframe animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.5);
+  }
+}
+
+@keyframes particle-burst {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+/* Particle animation helper */
+.particle {
+  @apply pointer-events-none absolute bg-white rounded-full;
+  width: 4px;
+  height: 4px;
+  animation: particle-burst 0.5s ease-out forwards;
+}
+
+/* Add hover state animations */
+.hover-glow {
+  @apply transition-all duration-300;
+  
+  &:hover {
+    @apply shadow-[0_0_20px_rgba(16,185,129,0.6)]
+           -translate-y-1;
+  }
+}
+
+/* Add active state animations */
+.active-press {
+  @apply transition-all duration-100;
+  
+  &:active {
+    @apply transform scale-95
+           shadow-[0_0_10px_rgba(16,185,129,0.4)];
+  }
 }

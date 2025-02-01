@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { 
   X, Clock, User, Calendar, Share2, ArrowLeft, 
-  BookmarkPlus, ThumbsUp, MessageCircle, Eye
+  BookmarkPlus, ThumbsUp, MessageCircle, Eye, Send
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { useState } from 'react';
@@ -53,6 +53,14 @@ export function ArticleModal({ post, onClose, onShare }: ArticleModalProps) {
     }
   };
 
+  const handleComment = () => {
+    // Implementation of handleComment
+  };
+
+  const handleSubscribe = () => {
+    // Implementation of handleSubscribe
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -76,65 +84,69 @@ export function ArticleModal({ post, onClose, onShare }: ArticleModalProps) {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
             className="sticky top-4 z-10 flex items-center justify-between 
-                       bg-white/80 backdrop-blur-md rounded-full shadow-lg px-4 py-2 mb-6"
+                       bg-white/90 dark:bg-gray-900/90 backdrop-blur-md 
+                       rounded-full shadow-lg px-4 py-2 mb-6
+                       border border-gray-100 dark:border-gray-800"
           >
+            {/* Back button */}
             <button
               onClick={onClose}
-              className="flex items-center space-x-2 text-gray-600 hover:text-emerald-600 
-                       transition-colors px-3 py-1.5 rounded-full hover:bg-gray-100"
+              className="btn-base flex items-center space-x-2 px-3 py-1.5 rounded-full
+                         text-gray-700 dark:text-gray-300"
             >
               <ArrowLeft className="w-5 h-5" />
               <span>Back</span>
             </button>
 
             <div className="flex items-center space-x-2">
+              {/* Like button */}
               <button
                 onClick={handleLike}
-                className={`flex items-center space-x-1 px-3 py-1.5 rounded-full transition-colors
+                className={`btn-base flex items-center space-x-1 px-3 py-1.5 rounded-full
                           ${hasLiked 
-                            ? 'text-emerald-600 bg-emerald-50' 
-                            : 'text-gray-600 hover:bg-gray-100'}`}
+                            ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30' 
+                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`}
               >
                 <ThumbsUp className={`w-5 h-5 ${hasLiked ? 'fill-current' : ''}`} />
                 <span>{likes}</span>
               </button>
 
+              {/* Bookmark button */}
               <button
                 onClick={handleBookmark}
-                className={`p-2 rounded-full transition-colors
+                className={`btn-base p-2 rounded-full
                           ${isBookmarked 
-                            ? 'text-emerald-600 bg-emerald-50' 
-                            : 'text-gray-600 hover:bg-gray-100'}`}
+                            ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30' 
+                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'}`}
               >
                 <BookmarkPlus className={`w-5 h-5 ${isBookmarked ? 'fill-current' : ''}`} />
               </button>
 
-              <div className="h-6 w-px bg-gray-200" />
+              <div className="h-6 w-px bg-gray-200 dark:bg-gray-700" />
 
               {/* Share buttons */}
               <div className="flex items-center space-x-2">
                 <TwitterShareButton url={shareUrl} title={post.title}>
-                  <div className="p-2 hover:bg-white/20 rounded-full transition-colors">
+                  <div className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
                     <TwitterIcon size={24} round />
                   </div>
                 </TwitterShareButton>
                 
                 <LinkedinShareButton url={shareUrl} title={post.title}>
-                  <div className="p-2 hover:bg-white/20 rounded-full transition-colors">
+                  <div className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
                     <LinkedinIcon size={24} round />
                   </div>
                 </LinkedinShareButton>
                 
                 <FacebookShareButton url={shareUrl} quote={post.title}>
-                  <div className="p-2 hover:bg-white/20 rounded-full transition-colors">
+                  <div className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
                     <FacebookIcon size={24} round />
                   </div>
                 </FacebookShareButton>
 
                 <button
                   onClick={handleCopyLink}
-                  className="p-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm 
-                           rounded-full transition-colors text-white"
+                  className="btn-base p-2 rounded-full text-gray-700 dark:text-gray-300"
                   aria-label="Copy link"
                 >
                   <Share2 className="w-5 h-5" />
@@ -147,8 +159,9 @@ export function ArticleModal({ post, onClose, onShare }: ArticleModalProps) {
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-hidden max-w-4xl w-full 
-                       mx-auto relative border border-gray-100 dark:border-gray-800"
+            className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-hidden 
+                       max-w-4xl w-full mx-auto relative
+                       border border-gray-100 dark:border-gray-800"
           >
             {/* Hero Section */}
             <div className="relative h-[400px]">
@@ -157,7 +170,8 @@ export function ArticleModal({ post, onClose, onShare }: ArticleModalProps) {
                 alt={post.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t 
+                              from-gray-900/80 via-gray-900/50 to-transparent" />
               
               {/* Title Section */}
               <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
@@ -204,7 +218,8 @@ export function ArticleModal({ post, onClose, onShare }: ArticleModalProps) {
                 </div>
 
                 {/* Table of Contents */}
-                <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 mb-8">
+                <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 mb-8
+                                border border-gray-100 dark:border-gray-800">
                   <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
                     Table of Contents
                   </h3>
@@ -358,7 +373,9 @@ export function ArticleModal({ post, onClose, onShare }: ArticleModalProps) {
                 {/* Newsletter Section with enhanced styling */}
                 <div className="mt-16">
                   <div className="bg-gradient-to-br from-emerald-50 to-emerald-100/50 
-                                rounded-2xl p-8 shadow-inner relative overflow-hidden">
+                                dark:from-emerald-900/20 dark:to-emerald-800/10
+                                rounded-2xl p-8 shadow-inner relative overflow-hidden
+                                border border-emerald-100/50 dark:border-emerald-800/50">
                     <div className="absolute inset-0 bg-grid-pattern opacity-5" />
                     <div className="relative">
                       <NewsletterForm />
