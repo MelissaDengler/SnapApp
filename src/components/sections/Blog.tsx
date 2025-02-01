@@ -7,6 +7,9 @@ import { SwipeIndicator } from '@/components/ui/SwipeIndicator';
 import { SwipeHint } from '@/components/ui/SwipeHint';
 import { HeartsAnimation } from '@/components/ui/HeartsAnimation';
 import { ArticleModal } from '@/components/blog/ArticleModal';
+import { toast } from 'sonner';
+import { ReadingProgress } from '@/components/ui/ReadingProgress';
+import { FloatingShareButton } from '@/components/ui/FloatingShareButton';
 
 interface BlogPost {
   id: string;
@@ -220,6 +223,8 @@ export function Blog() {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [showArticle, setShowArticle] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [bookmarkedPosts, setBookmarkedPosts] = useState<string[]>([]);
 
   const nextSlide = () => {
     if (currentIndex < trendingPosts.length - 1) {
@@ -275,6 +280,17 @@ export function Blog() {
       setShowArticle(true);
     }, 300);
     setTimeout(() => setShowHearts(null), 2000);
+  };
+
+  const handleBookmark = (post: BlogPost) => {
+    const isBookmarked = bookmarkedPosts.includes(post.id);
+    if (isBookmarked) {
+      setBookmarkedPosts(prev => prev.filter(id => id !== post.id));
+      toast.success('Removed from bookmarks');
+    } else {
+      setBookmarkedPosts(prev => [...prev, post.id]);
+      toast.success('Added to bookmarks');
+    }
   };
 
   return (
@@ -405,11 +421,30 @@ export function Blog() {
                             </button>
                             <button
                               onClick={() => handleBookmark(post)}
-                              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 
-                                       rounded-full transition-colors"
+                              className={`p-2 hover:bg-gray-100 dark:hover:bg-gray-700 
+                                       rounded-full transition-colors ${
+                                         bookmarkedPosts.includes(post.id) ? 'text-emerald-500' : ''
+                                       }`}
                               aria-label="Bookmark article"
                             >
-                              <BookmarkPlus className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                              <BookmarkPlus 
+                                className={`w-5 h-5 ${
+                                  bookmarkedPosts.includes(post.id) 
+                                    ? 'text-emerald-500 fill-emerald-500' 
+                                    : 'text-gray-600 dark:text-gray-400'
+                                }`} 
+                              />
+                            </button>
+                            <button
+                              onClick={() => {
+                                setSelectedPost(post);
+                                setShowShareModal(true);
+                              }}
+                              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 
+                                       rounded-full transition-colors"
+                              aria-label="Share article"
+                            >
+                              <Share2 className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                             </button>
                           </div>
 
@@ -480,14 +515,21 @@ export function Blog() {
       </div>
 
       {showArticle && selectedPost && (
-        <ArticleModal
-          post={selectedPost}
-          onClose={() => setShowArticle(false)}
-          onShare={() => {
-            setShowShareModal(true);
-            setShowArticle(false);
-          }}
-        />
+        <>
+          <ReadingProgress />
+          <FloatingShareButton 
+            url={`https://yourwebsite.com/blog/${selectedPost.id}`}
+            title={selectedPost.title}
+          />
+          <ArticleModal
+            post={selectedPost}
+            onClose={() => setShowArticle(false)}
+            onShare={() => {
+              setShowShareModal(true);
+              setShowArticle(false);
+            }}
+          />
+        </>
       )}
     </section>
   );
