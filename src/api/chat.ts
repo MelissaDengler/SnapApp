@@ -1,11 +1,8 @@
-import { createClient } from '@vercel/edge';
-import { OpenAIStream } from 'ai';
-
 export const config = {
   runtime: 'edge',
 };
 
-const openAIKey = process.env.OPENAI_API_KEY;
+const openAIKey = process.env.NEXT_PUBLIC_OPEN_API_KEY;
 
 export default async function handler(req: Request) {
   if (!openAIKey) {
@@ -29,8 +26,7 @@ export default async function handler(req: Request) {
       }),
     });
 
-    const stream = OpenAIStream(response);
-    return new Response(stream);
+    return response;
   } catch (error) {
     console.error('Chat API error:', error);
     return new Response('Error processing chat request', { status: 500 });
