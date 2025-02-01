@@ -818,3 +818,39 @@ body {
            shadow-[0_0_10px_rgba(16,185,129,0.4)];
   }
 }
+
+/* Add smooth dark mode transitions */
+* {
+  @apply transition-colors duration-200;
+}
+
+.dark-mode-transition {
+  @apply transition-all duration-300;
+}
+
+/* Enhanced dark mode styles */
+.dark {
+  @apply bg-gray-900;
+
+  /* Enhanced dark mode text */
+  h1, h2, h3, h4 {
+    @apply text-white;
+  }
+
+  p {
+    @apply text-gray-300;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-gray-800 border-gray-700;
+  }
+
+  /* Form elements */
+  input, textarea, select {
+    @apply bg-gray-700 border-gray-600 text-white;
+    &::placeholder {
+      @apply text-gray-400;
+    }
+  }
+}
