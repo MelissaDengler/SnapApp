@@ -2,31 +2,22 @@ export const config = {
   runtime: 'edge',
 };
 
-const openAIKey = process.env.NEXT_PUBLIC_OPEN_API_KEY;
-
 export default async function handler(req: Request) {
-  if (!openAIKey) {
-    return new Response('OpenAI API key not configured', { status: 500 });
-  }
-
   try {
-    const { messages } = await req.json();
-
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
+    // Simulate a delay to show "thinking" state
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    return new Response(JSON.stringify({
+      choices: [{
+        message: {
+          content: "Chat bot coming soon! This is a mock response for development purposes."
+        }
+      }]
+    }), {
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${openAIKey}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4-turbo-preview',
-        messages,
-        temperature: 0.7,
-        max_tokens: 500,
-      }),
+        'Content-Type': 'application/json'
+      }
     });
-
-    return response;
   } catch (error) {
     console.error('Chat API error:', error);
     return new Response('Error processing chat request', { status: 500 });
