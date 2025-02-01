@@ -438,3 +438,130 @@ body {
 .pulse-glow {
   animation: pulse-glow 4s ease-in-out infinite;
 }
+
+/* Add these new button animation classes */
+.animate-border-glow {
+  @apply relative;
+  
+  &::before {
+    @apply absolute inset-0;
+    content: '';
+    background: linear-gradient(
+      90deg,
+      theme('colors.emerald.400'),
+      theme('colors.teal.400'),
+      theme('colors.emerald.400')
+    );
+    background-size: 200% 100%;
+    animation: border-glow 3s linear infinite;
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    padding: 2px;
+    border-radius: inherit;
+  }
+}
+
+.animate-button-glow {
+  @apply relative overflow-hidden;
+  
+  &::before {
+    @apply absolute inset-0 opacity-0;
+    content: '';
+    background: radial-gradient(
+      circle at center,
+      theme('colors.emerald.400') 0%,
+      transparent 70%
+    );
+    transition: opacity 0.3s ease;
+  }
+  
+  &:hover::before {
+    @apply opacity-20;
+  }
+}
+
+.gradient-border-button {
+  @apply relative;
+  background: linear-gradient(
+    90deg,
+    theme('colors.emerald.500'),
+    theme('colors.teal.500'),
+    theme('colors.emerald.500')
+  );
+  background-size: 200% 100%;
+  animation: gradient-shift 3s linear infinite;
+  
+  &::before {
+    @apply absolute inset-[2px] bg-white dark:bg-gray-900 rounded-[inherit] transition-colors duration-200;
+    content: '';
+  }
+  
+  &:hover::before {
+    @apply bg-opacity-95 dark:bg-opacity-95;
+  }
+  
+  span {
+    @apply relative z-10;
+  }
+}
+
+/* Add these keyframe animations */
+@keyframes border-glow {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+@keyframes button-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Enhanced hover effects */
+.hover-glow {
+  @apply transition-all duration-300;
+  
+  &:hover {
+    @apply shadow-[0_0_15px_rgba(16,185,129,0.3)];
+    transform: translateY(-2px);
+  }
+}
+
+/* Gradient text animation */
+.animate-gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r;
+  background-size: 200% 100%;
+  animation: gradient-shift 3s linear infinite;
+  
+  &.primary {
+    @apply from-emerald-500 via-teal-500 to-emerald-500;
+  }
+  
+  &.secondary {
+    @apply from-purple-500 via-pink-500 to-purple-500;
+  }
+}
+
+/* Add a subtle shimmer effect */
+.shimmer {
+  @apply relative overflow-hidden;
+  
+  &::before {
+    @apply absolute inset-0;
+    content: '';
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    transform: translateX(-100%);
+    animation: shimmer 2s infinite;
+  }
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
