@@ -1,209 +1,217 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Camera } from 'lucide-react';
-import { useState } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { Menu, X, Camera, Calculator, Sparkles } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { ThemeToggle1, ThemeToggle2 } from '../ui/ThemeToggle';
+import { ThemeToggle1 } from '../ui/ThemeToggle';
+import { useLocation } from 'react-router-dom';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeItem, setActiveItem] = useState<string>('');
+  const location = useLocation();
+  const { scrollY } = useScroll();
   
+  const headerBackground = useTransform(
+    scrollY,
+    [0, 50],
+    ["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 0.8)"]
+  );
+
+  const navigationItems = [
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '#about' },
+    { name: 'Packages', href: '#packages' },
+    { 
+      name: 'Calculator', 
+      href: '/calculator', 
+      icon: Calculator,
+      isNew: true 
+    },
+    { name: 'Contact', href: '#contact' },
+  ];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      setActiveItem(hash.slice(1));
+    } else if (location.pathname === '/calculator') {
+      setActiveItem('calculator');
+    } else {
+      setActiveItem('home');
+    }
+  }, [location]);
+
   return (
     <motion.header 
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed w-full z-50 bg-white/80 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-100 dark:border-gray-800"
+      style={{ background: headerBackground }}
+      className={cn(
+        "fixed w-full z-50 backdrop-blur-md transition-all duration-300",
+        isScrolled 
+          ? "border-b border-emerald-100/20 dark:border-emerald-800/20 py-3 shadow-[0_2px_10px_-2px_rgba(16,185,129,0.1)]" 
+          : "py-4"
+      )}
     >
-      <nav className="container mx-auto px-6 py-4">
+      <nav className="container mx-auto px-6">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <a 
-              href="/" 
-              className="relative group flex items-center space-x-2"
-            >
-              {/* Logo Icon with Pop Animation */}
+          {/* Enhanced Logo */}
+          <motion.a 
+            href="/"
+            className="flex items-center space-x-3 group"
+            whileHover={{ scale: 1.02 }}
+          >
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-teal-500 
+                            rounded-full opacity-20 group-hover:opacity-40 blur-md transition-all duration-300" />
               <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="relative"
+                whileHover={{ rotate: 180 }}
+                transition={{ duration: 0.3, type: "spring" }}
+                className="relative z-10 bg-white/80 dark:bg-gray-900/80 rounded-full p-2"
               >
-                <motion.div
-                  animate={{
-                    scale: [1, 1.2, 1],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut"
-                  }}
-                  className="relative z-10"
-                >
-                  <Camera className="w-8 h-8 text-emerald-500 dark:text-emerald-400" />
-                </motion.div>
-                {/* Glow Effect */}
-                <motion.div
-                  animate={{
-                    opacity: [0.5, 1, 0.5],
-                    scale: [0.8, 1.2, 0.8],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut"
-                  }}
-                  className="absolute inset-0 -z-10 bg-emerald-500/20 dark:bg-emerald-400/20 rounded-full blur-lg"
-                />
+                <Camera className="w-5 h-5 text-emerald-500 dark:text-emerald-400" />
               </motion.div>
-
-              {/* App Name with Glow Animation */}
-              <div className="relative">
-                <motion.span 
-                  className="text-2xl font-bold relative z-10 flex items-center space-x-1"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <motion.span
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.5 }}
-                    className="relative inline-block group-hover:scale-[1.02] transition-transform duration-300
-                               bg-clip-text text-transparent bg-gradient-to-r 
-                               from-emerald-600 to-emerald-500
-                               dark:from-emerald-400 dark:to-emerald-300"
-                  >
-                    Snap
-                  </motion.span>
-                  <motion.span
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                    className="relative inline-block text-emerald-600 dark:text-emerald-400 
-                             group-hover:scale-[1.02] transition-transform duration-300"
-                  >
-                    App
-                  </motion.span>
-                </motion.span>
-
-                {/* Enhanced Glow Effect */}
-                <motion.div
-                  className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  animate={{
-                    scale: [1, 1.1, 1],
-                    opacity: [0, 0.3, 0]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    repeatType: "reverse"
-                  }}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 via-teal-500/20 to-emerald-500/20 
-                                blur-xl rounded-full" />
-                </motion.div>
-
-                {/* Sparkle Effects */}
-                <motion.div
-                  className="absolute inset-0 -z-10"
-                  initial={false}
-                >
-                  {[...Array(3)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="absolute w-1 h-1 bg-emerald-400/50 rounded-full"
-                      style={{
-                        top: `${Math.random() * 100}%`,
-                        left: `${Math.random() * 100}%`,
-                      }}
-                      animate={{
-                        scale: [0, 1, 0],
-                        opacity: [0, 1, 0],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        delay: i * 0.4,
-                        ease: "easeInOut",
-                      }}
-                    />
-                  ))}
-                </motion.div>
-              </div>
-            </a>
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-8">
-            {['About', 'Packages', 'Testimonials', 'Contact'].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="text-gray-700 dark:text-gray-200 hover:text-emerald-500 
-                         dark:hover:text-emerald-400 transition-colors relative
-                         after:absolute after:left-0 after:bottom-0 after:h-0.5 
-                         after:w-0 after:bg-emerald-500 dark:after:bg-emerald-400
-                         after:transition-all hover:after:w-full"
+            </div>
+            <div className="relative">
+              <span className="text-lg font-semibold bg-clip-text text-transparent 
+                             bg-gradient-to-r from-emerald-600 to-teal-600 
+                             dark:from-emerald-400 dark:to-teal-400">
+                SnapApp
+              </span>
+              <motion.div
+                animate={{
+                  opacity: [0.5, 1, 0.5],
+                  scale: [1, 1.2, 1],
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="absolute -top-1 -right-3"
               >
-                {item}
-              </a>
+                <Sparkles className="w-3 h-3 text-emerald-500/50" />
+              </motion.div>
+            </div>
+          </motion.a>
+
+          {/* Enhanced Navigation */}
+          <div className="hidden md:flex items-center space-x-1">
+            {navigationItems.map((item) => (
+              <motion.a
+                key={item.name}
+                href={item.href}
+                className={cn(
+                  "px-4 py-2 rounded-lg relative group transition-all duration-300",
+                  activeItem === item.name.toLowerCase()
+                    ? "text-emerald-600 dark:text-emerald-400"
+                    : "text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400"
+                )}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="relative z-10 flex items-center space-x-2">
+                  {item.icon && <item.icon className="w-4 h-4" />}
+                  <span className="font-medium">{item.name}</span>
+                  {item.isNew && (
+                    <span className="absolute -top-1 -right-6 px-1.5 py-0.5 
+                                   bg-gradient-to-r from-emerald-500 to-teal-500
+                                   text-white text-[10px] rounded-full 
+                                   animate-pulse shadow-lg shadow-emerald-500/20">
+                      New
+                    </span>
+                  )}
+                </span>
+                <motion.div
+                  className="absolute inset-0 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 
+                            opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
+                  layoutId={`${item.name}-background`}
+                />
+                {activeItem === item.name.toLowerCase() && (
+                  <motion.div
+                    layoutId="active-nav"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r 
+                              from-emerald-500 to-teal-500"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+              </motion.a>
             ))}
           </div>
 
-          {/* Actions section with Mobile Menu Button */}
+          {/* Enhanced Actions */}
           <div className="flex items-center space-x-4">
             <ThemeToggle1 />
-            {/* Mobile Menu Button */}
-            <button 
-              className="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+            <motion.button
+              className="md:hidden relative group"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
-              {isMenuOpen ? 
-                <X className="w-6 h-6 text-gray-600 dark:text-gray-300" /> : 
-                <Menu className="w-6 h-6 text-gray-600 dark:text-gray-300" />
-              }
-            </button>
+              <div className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 
+                            group-hover:bg-emerald-100 dark:group-hover:bg-emerald-800/30 
+                            transition-colors duration-300">
+                {isMenuOpen ? 
+                  <X className="w-5 h-5 text-emerald-600 dark:text-emerald-400" /> : 
+                  <Menu className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                }
+              </div>
+            </motion.button>
           </div>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
+      {/* Enhanced Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800"
+            transition={{ duration: 0.2 }}
+            className="md:hidden border-t border-emerald-100/20 dark:border-emerald-800/20 
+                      bg-white/90 dark:bg-gray-900/90 backdrop-blur-md"
           >
             <div className="container mx-auto px-6 py-4">
               <motion.div 
-                className="flex flex-col space-y-4"
+                className="flex flex-col space-y-2"
+                variants={{
+                  open: { transition: { staggerChildren: 0.07 } },
+                  closed: { transition: { staggerChildren: 0.05, staggerDirection: -1 } }
+                }}
                 initial="closed"
                 animate="open"
-                variants={{
-                  open: {
-                    transition: { staggerChildren: 0.1 }
-                  },
-                  closed: {
-                    transition: { staggerChildren: 0.05, staggerDirection: -1 }
-                  }
-                }}
               >
-                {['About', 'Packages', 'Testimonials', 'Contact'].map((item) => (
+                {navigationItems.map((item) => (
                   <motion.a
-                    key={item}
+                    key={item.name}
+                    href={item.href}
+                    className={cn(
+                      "flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300",
+                      activeItem === item.name.toLowerCase()
+                        ? "bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 text-emerald-600 dark:text-emerald-400"
+                        : "hover:bg-emerald-50 dark:hover:bg-emerald-900/20 text-gray-600 dark:text-gray-300"
+                    )}
                     variants={{
-                      open: { opacity: 1, y: 0 },
-                      closed: { opacity: 0, y: 20 }
+                      open: { x: 0, opacity: 1 },
+                      closed: { x: -20, opacity: 0 }
                     }}
-                    href={`#${item.toLowerCase()}`}
-                    className="text-gray-700 dark:text-gray-200 hover:text-emerald-500 
-                             dark:hover:text-emerald-400 transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    {item}
+                    {item.icon && <item.icon className="w-4 h-4" />}
+                    <span className="font-medium">{item.name}</span>
+                    {item.isNew && (
+                      <span className="ml-auto px-1.5 py-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 
+                                     text-white text-xs rounded-full shadow-lg shadow-emerald-500/20">
+                        New
+                      </span>
+                    )}
                   </motion.a>
                 ))}
               </motion.div>

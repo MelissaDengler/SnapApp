@@ -1,12 +1,17 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
-interface AnimatedHeadingProps {
+export interface AnimatedHeadingProps {
   children: React.ReactNode;
   className?: string;
+  variant?: 'default' | 'glitch';
 }
 
-export function AnimatedHeading({ children, className = '' }: AnimatedHeadingProps) {
+export const AnimatedHeading: React.FC<AnimatedHeadingProps> = ({ 
+  children, 
+  className = '',
+  variant = 'default'
+}) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -23,8 +28,8 @@ export function AnimatedHeading({ children, className = '' }: AnimatedHeadingPro
     >
       <span className="relative inline-block group-hover:scale-[1.02] transition-transform duration-300">
         {children}
-        {/* Multiple glitch layers for more dramatic effect */}
-        {[...Array(3)].map((_, i) => (
+        {/* Glitch effect only shows when variant is 'glitch' */}
+        {variant === 'glitch' && [...Array(3)].map((_, i) => (
           <motion.span
             key={i}
             className="absolute inset-0 text-emerald-500 opacity-0"
