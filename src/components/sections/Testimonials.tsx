@@ -37,11 +37,13 @@ export function Testimonials() {
                        rounded-full mix-blend-multiply dark:mix-blend-lighten blur-3xl" />
       </div>
 
-      <section className="py-24 bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-50 
-                           dark:from-emerald-900/40 dark:via-emerald-800/20 dark:to-gray-900">
-          <div className="container mx-auto px-6">
-            <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">
-          
+      <div className="container relative mx-auto px-6">
+        <div className="text-center mb-16">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-4xl font-bold mb-4 text-gray-900 dark:text-white"
+          >
             What Our Clients Say
           </motion.h2>
           <motion.p 
