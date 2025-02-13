@@ -1,8 +1,8 @@
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { Menu, X, Camera, Calculator, Sparkles } from 'lucide-react';
+import { Menu, X, Camera, Calculator, Sparkles, FileText } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { ThemeToggle1 } from '../ui/ThemeToggle';
+import { ThemeToggle } from '../ui/ThemeToggle';
 import { useLocation } from 'react-router-dom';
 
 export function Header() {
@@ -22,6 +22,12 @@ export function Header() {
     { name: 'Home', href: '/' },
     { name: 'About', href: '#about' },
     { name: 'Packages', href: '#packages' },
+    { 
+      name: 'PRD Form', 
+      href: '/prd', 
+      icon: FileText,
+      isNew: true 
+    },
     { 
       name: 'Calculator', 
       href: '/calculator', 
@@ -86,7 +92,7 @@ export function Header() {
               <span className="text-lg font-semibold bg-clip-text text-transparent 
                              bg-gradient-to-r from-emerald-600 to-teal-600 
                              dark:from-emerald-400 dark:to-teal-400">
-                SnapApp
+                Idea2RealApp
               </span>
               <motion.div
                 animate={{
@@ -147,7 +153,7 @@ export function Header() {
 
           {/* Enhanced Actions */}
           <div className="flex items-center space-x-4">
-            <ThemeToggle1 />
+            <ThemeToggle />
             <motion.button
               className="md:hidden relative group"
               onClick={() => setIsMenuOpen(!isMenuOpen)}

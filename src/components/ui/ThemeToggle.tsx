@@ -142,4 +142,69 @@ export function ThemeToggle2() {
                     group-hover:opacity-30 blur-lg group-hover:animate-pulse transition-all duration-300" />
     </motion.button>
   );
+}
+
+export function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme();
+
+  return (
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      onClick={toggleTheme}
+      className="relative p-2.5 rounded-xl bg-white/50 dark:bg-gray-800/50 
+                 border border-gray-200/50 dark:border-gray-700/50
+                 backdrop-blur-sm group transition-all duration-300
+                 hover:shadow-lg hover:shadow-brand-500/20
+                 dark:hover:shadow-brand-500/10"
+      aria-label="Toggle theme"
+    >
+      <div className="relative w-5 h-5">
+        <motion.div
+          initial={false}
+          animate={{
+            scale: theme === 'light' ? 1 : 0,
+            opacity: theme === 'light' ? 1 : 0,
+            rotate: theme === 'light' ? 0 : -90,
+          }}
+          transition={{ duration: 0.2, ease: 'easeInOut' }}
+          className="absolute inset-0"
+        >
+          <Sun className="w-full h-full text-amber-500" />
+        </motion.div>
+
+        <motion.div
+          initial={false}
+          animate={{
+            scale: theme === 'dark' ? 1 : 0,
+            opacity: theme === 'dark' ? 1 : 0,
+            rotate: theme === 'dark' ? 0 : 90,
+          }}
+          transition={{ duration: 0.2, ease: 'easeInOut' }}
+          className="absolute inset-0"
+        >
+          <Moon className="w-full h-full text-blue-500" />
+        </motion.div>
+
+        <motion.div
+          initial={false}
+          animate={{
+            scale: theme === 'system' ? 1 : 0,
+            opacity: theme === 'system' ? 1 : 0,
+            rotate: theme === 'system' ? 0 : 90,
+          }}
+          transition={{ duration: 0.2, ease: 'easeInOut' }}
+          className="absolute inset-0"
+        >
+          <Laptop className="w-full h-full text-gray-500" />
+        </motion.div>
+      </div>
+
+      <div 
+        className="absolute -inset-0.5 bg-gradient-to-r from-brand-500 to-emerald-500 
+                   rounded-xl opacity-0 group-hover:opacity-20 blur transition-all 
+                   duration-300 dark:group-hover:opacity-10"
+      />
+    </motion.button>
+  );
 } 

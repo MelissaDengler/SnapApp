@@ -1,6 +1,7 @@
 import { Command } from 'cmdk';
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Home, Calculator, FileText } from 'lucide-react';
 
 export function CommandMenu() {
   const [open, setOpen] = useState(false);
@@ -15,6 +16,31 @@ export function CommandMenu() {
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
   }, []);
+
+  const pages = [
+    {
+      heading: 'Pages',
+      items: [
+        {
+          name: 'Home',
+          icon: Home,
+          href: '/',
+        },
+        {
+          name: 'Calculator',
+          icon: Calculator,
+          href: '/calculator',
+        },
+        {
+          name: 'PRD Form',
+          icon: FileText,
+          href: '/prd',
+        },
+        // ... other items
+      ],
+    },
+    // ... other sections
+  ];
 
   return (
     <AnimatePresence>
